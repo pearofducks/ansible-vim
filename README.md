@@ -17,6 +17,14 @@ Bright (and selective highlight)     |  Dim
 :-----------------------------------:|:-------------------------:
 ![](http://i.imgur.com/whBOZZK.png)  |  ![](http://i.imgur.com/XS0T00e.png)
 
+##### installation
+
+Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/vim-plug) if you're looking for a really nice one!
+
+**vim-plug:** `Plug 'pearofducks/ansible-vim'`
+
+**vundle:** `Plugin 'pearofducks/ansible-vim'`
+
 ## options
 
 ##### g:ansible_extra_syntaxes
@@ -50,16 +58,6 @@ Available flags (this feature is off by default):
 
 - d: *dim* the instances of `name:` found
 - b: *brighten* the instances of `name:` found
-
-## installation
-
-Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/vim-plug) if you're looking for a really nice one!
-
-##### vim-plug
-`Plug 'pearofducks/ansible-vim'`
-
-##### vundle
-`Plugin 'pearofducks/ansible-vim'`
 
 ## bugs, suggestions/requests, & contributions
 
