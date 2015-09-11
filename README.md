@@ -1,6 +1,6 @@
 ## introduction
 
-This is a vim syntax plugin for Ansible, it supports YAML playbooks, Jinja2 templates, and dotini-based 'hosts' files.
+This is a vim syntax plugin for Ansible 2.0, it supports YAML playbooks, Jinja2 templates, and dotini-based 'hosts' files.
 
 - YAML playbooks are detected if:
   - they are in the `group_vars` or `host_vars` folder
