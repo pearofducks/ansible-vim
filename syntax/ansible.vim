@@ -39,9 +39,9 @@ highlight link jinjaVarDelim Delimiter
 
 " Reset some YAML to plain styling
 " the number 80 in Ansible isn't any more important than the word root
-highlight link yamlInteger Ignore
-highlight link yamlBool Ignore
-highlight link yamlFlowString Ignore
+highlight link yamlInteger NONE
+highlight link yamlBool NONE
+highlight link yamlFlowString NONE
 " but it does make sense we visualize quotes easily
 highlight link yamlFlowStringDelimiter Delimiter
 
@@ -52,7 +52,7 @@ fun! s:attribute_highlight(attributes)
     syn match ansible_attributes "\v^\s*\w+\=" containedin=yamlPlainScalar
   endif
   if a:attributes =~ 'n'
-    highlight link ansible_attributes Ignore
+    highlight link ansible_attributes NONE
   elseif a:attributes =~ 'd'
     highlight link ansible_attributes Comment
   else
