@@ -15,11 +15,13 @@ let b:current_syntax = ''
 unlet b:current_syntax
 runtime! syntax/jinja2.vim
 
-let s:extra_syntax = split(g:ansible_extra_syntaxes)
-for syntax_name in s:extra_syntax
-  let b:current_syntax = ''
-  unlet b:current_syntax
-  execute 'runtime!' "syntax/" . syntax_name
-endfor
+if exists("g:ansible_extra_syntaxes")
+  let s:extra_syntax = split(g:ansible_extra_syntaxes)
+  for syntax_name in s:extra_syntax
+    let b:current_syntax = ''
+    unlet b:current_syntax
+    execute 'runtime!' "syntax/" . syntax_name
+  endfor
+endif
 
 let b:current_syntax = "ansible_template"
