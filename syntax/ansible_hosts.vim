@@ -1,0 +1,31 @@
+" Vim syntax file
+" Language: Ansible hosts files
+" Maintainer: Dave Honneffer <pearofducks@gmail.com>
+" Last Change: 2015.09.23
+
+if exists("b:current_syntax")
+  finish
+endif
+
+syn case ignore
+syn match hostsFirstWord      "\v^\S+"
+syn match hostsAttributes     "\v\S*\="
+syn region hostsHeader        start="^\s*\[" end="\]"
+syn keyword hostsHeaderSpecials children vars containedin=hostsHeader contained
+syn match  hostsComment       "^[#;].*$"
+
+highlight link hostsFirstWord        Label
+highlight link hostsHeader           Define
+highlight link hostsComment          Comment
+highlight link hostsHeaderSpecials   Identifier
+highlight link hostsAttributes       Structure
+
+if exists("g:ansible_attribute_highlight")
+  if a:attributes =~ 'n'
+    highlight link hostsAttributes NONE
+  elseif a:attributes =~ 'd'
+    highlight link hostsAttributes Comment
+  endif
+endif
+
+let b:current_syntax = "ansible_hosts"

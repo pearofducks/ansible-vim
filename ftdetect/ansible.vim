@@ -10,4 +10,4 @@ endfunction
 
 :au BufNewFile,BufRead *.yml,*yaml,*/{group,host}_vars/*  call DetectAnsible()
 :au BufNewFile,BufRead *.j2 set ft=ansible_template
-:au BufNewFile,BufRead hosts set ft=dosini
+:au BufNewFile,BufRead hosts set ft=ansible_hosts
