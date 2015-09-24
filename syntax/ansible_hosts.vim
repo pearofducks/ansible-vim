@@ -21,9 +21,9 @@ highlight link hostsHeaderSpecials   Identifier
 highlight link hostsAttributes       Structure
 
 if exists("g:ansible_attribute_highlight")
-  if a:attributes =~ 'n'
+  if g:ansible_attribute_highlight =~ 'n'
     highlight link hostsAttributes NONE
-  elseif a:attributes =~ 'd'
+  elseif g:ansible_attribute_highlight =~ 'd'
     highlight link hostsAttributes Comment
   endif
 endif
