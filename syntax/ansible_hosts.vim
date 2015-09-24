@@ -10,9 +10,9 @@ endif
 syn case ignore
 syn match hostsFirstWord      "\v^\S+"
 syn match hostsAttributes     "\v\S*\="
-syn region hostsHeader        start="^\s*\[" end="\]"
+syn region hostsHeader        start="\v^\s*\[" end="\v\]"
 syn keyword hostsHeaderSpecials children vars containedin=hostsHeader contained
-syn match  hostsComment       "^[#;].*$"
+syn match  hostsComment       "\v^[#;].*$"
 
 highlight link hostsFirstWord        Label
 highlight link hostsHeader           Define
