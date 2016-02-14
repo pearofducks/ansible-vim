@@ -61,6 +61,14 @@ Available flags (this feature is off by default):
 - d: *dim* the instances of `name:` found
 - b: *brighten* the instances of `name:` found
 
+##### g:ansible_extra_keywords_highlight
+`let g:ansible_extra_keywords_highlight = 1`
+
+*Note:* This option is enabled when set, and disabled when not set.
+
+Highlight the following additional keywords in playbooks: `register always_run changed_when failed_when no_log args vars delegate_to ignore_errors`
+By default we only highlight: `include until retries delay when only_if become become_user block rescue always notify`
+
 ## bugs, suggestions/requests, & contributions
 
 ##### bugs
