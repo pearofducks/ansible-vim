@@ -67,6 +67,7 @@ Available flags (this feature is off by default):
 *Note:* This option is enabled when set, and disabled when not set.
 
 Highlight the following additional keywords in playbooks: `register always_run changed_when failed_when no_log args vars delegate_to ignore_errors`
+
 By default we only highlight: `include until retries delay when only_if become become_user block rescue always notify`
 
 ## bugs, suggestions/requests, & contributions
