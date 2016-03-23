@@ -4,6 +4,7 @@ function! s:isAnsible()
   if filepath =~ '\v/(tasks|roles|handlers)/.*\.ya?ml$' | return 1 | en
   if filepath =~ '\v/(group|host)_vars/' | return 1 | en
   if filename =~ '\v(playbook|site|main)\.ya?ml$' | return 1 | en
+  if filepath =~ '\v/roles/.*/(templates)/' | return 1 | en
 
   let shebang = getline(1)
   if shebang =~# '^#!.*/bin/env\s\+ansible-playbook\>' | return 1 | en
