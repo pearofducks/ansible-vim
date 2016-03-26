@@ -27,6 +27,8 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 **vundle:** `Plugin 'pearofducks/ansible-vim'`
 
+**pathogen:** `git clone https://github.com/pearofducks/ansible-vim ~/.vim/bundle/ansible-vim`
+
 ## options
 
 ##### g:ansible_extra_syntaxes
