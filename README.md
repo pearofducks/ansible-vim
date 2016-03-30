@@ -84,8 +84,6 @@ Indenting a full document - e.g with `gg=G` - will not be supported and is not a
 
 Suggestions for improvements are welcome, pull-requests with completed features even more so. :)
 
-If you make a pull-request please also add your (user)name to the list of contributors!
-
 ##### contributions
 
 Thanks to:
