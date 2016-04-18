@@ -13,7 +13,7 @@ You can also set the filetype to `ansible`, `ansible_template`, or `ansible_host
 
 This plugin should be quite reliable, as it sources the original formats and simply modifies the highlights as appropriate. This also enables a focus on simplicity and configurability instead of patching bad syntax detection.
 
-##### examples
+##### examples (with [solarized](https://github.com/altercation/vim-colors-solarized) colorscheme)
 
 Bright (and selective highlight)     |  Dim
 :-----------------------------------:|:-------------------------:
