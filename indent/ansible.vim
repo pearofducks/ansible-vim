@@ -18,6 +18,7 @@ let s:named_module_entry = '\v^\s*-\s*(name|hosts):\s*\S' " - name: 'do stuff'
 let s:dictionary_entry = '\v^\s*[^:-]+:\s*$' " with_items:
 let s:key_value = '\v^\s*[^:-]+:\s*\S' " apt: name=package
 let s:scalar_value = '\v:\s*[>|\|]\s*$' " shell: >
+let s:string_value = '\v:\s*\w+'
 
 if exists('*GetAnsibleIndent')
   finish
@@ -34,6 +35,8 @@ function GetAnsibleIndent(lnum)
   let line = getline(prevlnum)
   if line =~ s:array_entry
     if line =~ s:named_module_entry
+      return increase
+    elseif line =~ s:string_value
       return increase
     else
       return maintain
