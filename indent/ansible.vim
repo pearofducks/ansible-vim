@@ -25,7 +25,10 @@ endif
 
 function GetAnsibleIndent(lnum)
   if a:lnum == 1 || !prevnonblank(a:lnum-1)
-      return 0
+    return 0
+  endif
+  if (a:lnum -1) != prevnonblank(a:lnum - 1)
+    return 0
   endif
   let prevlnum = prevnonblank(a:lnum - 1)
   let maintain = indent(prevlnum)

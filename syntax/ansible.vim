@@ -23,8 +23,6 @@ let b:current_syntax = ''
 unlet b:current_syntax
 syntax include @Jinja syntax/jinja2.vim
 
-syn spell notoplevel
-
 " Jinja
 " ================================
 
