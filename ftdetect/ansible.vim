@@ -1,7 +1,7 @@
 function! s:isAnsible()
   let filepath = expand("%:p")
   let filename = expand("%:t")
-  if filepath =~ '\v/(tasks|roles|handlers)/.*\.ya?ml$' | return 1 | en
+  if filepath =~ '\v/(playbooks|tasks|roles|handlers)/.*\.ya?ml$' | return 1 | en
   if filepath =~ '\v/(group|host)_vars/' | return 1 | en
   if filename =~ '\v(playbook|site|main|local)\.ya?ml$' | return 1 | en
 
@@ -12,6 +12,15 @@ function! s:isAnsible()
   return 0
 endfunction
 
+function! s:isAnsibleHosts()
+  let filepath = expand("%:p")
+  let filename = expand("%:t")
+  if filepath =~ '\v/(inventories|inventory|hosts)/' | return 1 | en
+  if filename =~ '\v(inventory|hosts)' | return 1 | en
+
+  return 0
+endfunction
+
 :au BufNewFile,BufRead * if s:isAnsible() | set ft=ansible | en
 :au BufNewFile,BufRead *.j2 set ft=ansible_template
-:au BufNewFile,BufRead hosts set ft=ansible_hosts
+:au BufNewFile,BufRead * if s:isAnsibleHosts() | set ft=ansible_hosts | en
