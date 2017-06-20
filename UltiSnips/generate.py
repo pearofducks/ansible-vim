@@ -11,11 +11,7 @@ from ansible.utils.module_docs import get_docstring
 def get_documents():
     for root, dirs, files in os.walk(os.path.dirname(ansible.modules.__file__)):
         for f in files:
-            if f == '__init__.py':
-                continue
-            if f.endswith('.pyc'):
-                continue
-            if f.endswith('.ps1'):
+            if f == '__init__.py' or not f.endswith('py'):
                 continue
             documentation = get_docstring(os.path.join(root, f))[0]
             if documentation is None:
