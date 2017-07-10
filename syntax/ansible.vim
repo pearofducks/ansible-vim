@@ -83,10 +83,14 @@ if exists("g:ansible_extra_keywords_highlight")
   highlight link ansible_extra_special_keywords Statement
 endif
 
-syn keyword ansible_special_keywords include until retries delay when only_if become become_user block rescue always notify containedin=yamlBlockMappingKey contained
-highlight link ansible_special_keywords Statement
+if !exists("g:ansible_special_keywords_highlight") || g:ansible_special_keywords_highlight
+  syn keyword ansible_special_keywords include until retries delay when only_if become become_user block rescue always notify containedin=yamlBlockMappingKey contained
+  highlight link ansible_special_keywords Statement
+endif
 
-syn match ansible_with_keywords "\vwith_.+" containedin=yamlBlockMappingKey contained
-highlight link ansible_with_keywords Statement
+if !exists("g:ansible_loops_keywords_highlight") || g:ansible_loops_keywords_highlight
+  syn match ansible_with_keywords "\vwith_.+" containedin=yamlBlockMappingKey contained
+  highlight link ansible_with_keywords Statement
+endif
 
 let b:current_syntax = "ansible"

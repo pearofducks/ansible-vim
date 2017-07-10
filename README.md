@@ -72,6 +72,13 @@ Available flags (this feature is off by default):
 - d: *dim* the instances of `name:` found
 - b: *brighten* the instances of `name:` found
 
+##### g:ansible_special_keywords_highlight
+`let g:ansible_special_keywords_highlight = 0`
+
+Highlight the following keywords in playbooks: `include until retries delay when only_if become become_user block rescue always notify`
+
+By default this options is enabled and to turn it off it has to be set to 0.
+
 ##### g:ansible_extra_keywords_highlight
 `let g:ansible_extra_keywords_highlight = 1`
 
@@ -80,6 +87,13 @@ Available flags (this feature is off by default):
 Highlight the following additional keywords in playbooks: `register always_run changed_when failed_when no_log args vars delegate_to ignore_errors`
 
 By default we only highlight: `include until retries delay when only_if become become_user block rescue always notify`
+
+##### g:ansible_loops_keywords_highlight
+`let g:ansible_loops_keywords_highlight = 0`
+
+Highlight the various Ansible loops which keywords start with `with_`.
+
+By default this options is enabled and to turn it off it has to be set to 0.
 
 ## bugs, suggestions/requests, & contributions
 
