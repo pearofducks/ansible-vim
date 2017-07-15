@@ -81,6 +81,24 @@ Highlight the following additional keywords in playbooks: `register always_run c
 
 By default we only highlight: `include until retries delay when only_if become become_user block rescue always notify`
 
+##### g:ansible_normal_keywords_highlight
+`let g:ansible_normal_keywords_highlight = 'Constant'`
+
+This option accepts the first line of each option in `:help E669` - thus the first 3 options are _Comment_, _Constant_, and _Identifier_
+
+*Note:* Defaults to 'Statement' when not set.
+
+This controls the highlight of the following common keywords in playbooks: `include until retries delay when only_if become become_user block rescue always notify`
+
+##### g:ansible_with_keywords_highlight
+`let g:ansible_with_keywords_highlight = 'Constant'`
+
+This option accepts the first line of each group in `:help E669` - thus the first 3 are _Comment_, _Constant_, and _Identifier_
+
+*Note:* Defaults to 'Statement' when not set.
+
+This controls the highlight of all `with_.+` keywords in playbooks.
+
 ## bugs, suggestions/requests, & contributions
 
 ##### bugs
