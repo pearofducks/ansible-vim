@@ -40,9 +40,9 @@ def to_snippet(document):
             else:
                 value = "# " + option.get('description', [''])[0]
             if name == 'free_form':  # special for command/shell
-                snippet.append('\t${%d:%s=%s}' % (index, name, value))
+                snippet.append('\t${%d:%s: %s}' % (index, name, value))
             else:
-                snippet.append('\t%s=${%d:%s}' % (name, index, value))
+                snippet.append('\t%s: ${%d:%s}' % (name, index, value))
 
         # insert a line to seperate required/non-required field
         for index, (_, option) in enumerate(options):
@@ -51,7 +51,7 @@ def to_snippet(document):
                     snippet.insert(index, '')
                 break
 
-    snippet.insert(0, '%s:%s' % (document['module'], ' >' if len(snippet) else ''))
+    snippet.insert(0, '%s:' % (document['module']))
     snippet.insert(0, 'snippet %s "%s" b' % (document['module'], document['short_description']))
     snippet.append('')
     snippet.append('endsnippet')
