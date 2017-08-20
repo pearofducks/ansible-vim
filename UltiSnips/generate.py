@@ -22,7 +22,7 @@ def get_documents():
 def to_snippet(document):
     snippet = []
     if 'options' in document:
-        options = sorted(document['options'].items(), key=lambda x: x[1].get("required", False), reverse=True)
+        options = sorted(document['options'].items(), key=lambda x: x[1].get("required") or x[0])
         for index, (name, option) in enumerate(options, 1):
             if 'choices' in option:
                 default = option.get('default')
