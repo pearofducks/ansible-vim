@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import argparse
 import os
 import os.path
 import ansible.modules
@@ -22,7 +23,11 @@ def get_documents():
 def to_snippet(document):
     snippet = []
     if 'options' in document:
-        options = sorted(document['options'].items(), key=lambda x: x[1].get("required") or x[0])
+        if args.sort:
+            options = sorted(document['options'].items(), key=lambda x: x[1].get('required') or x[0])
+        else:
+            options = sorted(document['options'].items(), key=lambda x: x[1].get('required'), reverse=True)
+
         for index, (name, option) in enumerate(options, 1):
             if 'choices' in option:
                 default = option.get('default')
@@ -39,10 +44,15 @@ def to_snippet(document):
                     value = 'yes' if value else 'no'
             else:
                 value = "# " + option.get('description', [''])[0]
-            if name == 'free_form':  # special for command/shell
-                snippet.append('\t${%d:%s: %s}' % (index, name, value))
+            if args.style == 'dictionary':
+                delim = ': '
             else:
-                snippet.append('\t%s: ${%d:%s}' % (name, index, value))
+                delim = '='
+
+            if name == 'free_form':  # special for command/shell
+                snippet.append('\t${%d:%s%s%s}' % (index, name, delim, value))
+            else:
+                snippet.append('\t%s%s${%d:%s}' % (name, delim, index, value))
 
         # insert a line to seperate required/non-required field
         for index, (_, option) in enumerate(options):
@@ -51,7 +61,10 @@ def to_snippet(document):
                     snippet.insert(index, '')
                 break
 
-    snippet.insert(0, '%s:' % (document['module']))
+    if args.style == 'dictionary':
+        snippet.insert(0, '%s:' % (document['module']))
+    else:
+        snippet.insert(0, '%s:%s' % (document['module'], ' >' if len(snippet) else ''))
     snippet.insert(0, 'snippet %s "%s" b' % (document['module'], document['short_description']))
     snippet.append('')
     snippet.append('endsnippet')
@@ -59,7 +72,29 @@ def to_snippet(document):
 
 
 if __name__ == "__main__":
-    with open("ansible.snippets", "w") as f:
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        '--output',
+        help='output filename',
+        default='ansible.snippets'
+    )
+    parser.add_argument(
+        '--style',
+        help='yaml format to use for snippets',
+        choices=['multiline', 'dictionary'],
+        default='multiline'
+    )
+    parser.add_argument(
+        '--sort',
+        help='sort module arguments',
+        action='store_true',
+        default=False
+    )
+
+    args = parser.parse_args()
+
+    with open(args.output, "w") as f:
         f.writelines(["priority -50\n", "\n", "# THIS FILE IS AUTOMATED GENERATED, PLEASE DON'T MODIFY BY HAND\n", "\n"])
         for document in get_documents():
             if 'deprecated' in document:
