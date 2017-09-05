@@ -3,6 +3,15 @@ Generate Snippets Based on Ansible Modules
 
 A script to generate `UltiSnips` based on ansible code on the fly.
 
+Script parameters
+-----------------
+There are a couple of optional arguments for the script.
+
+  * --output: Output filename (Default: ansible.snippets)
+  * --style: YAML formatting style for snippets
+             Choices: multiline (default), dictionary
+  * --sort: Whether to sort module arguments (default: no)
+
 For Users
 ---------
 We display option description somewhere, however, there are some special formatters in it.
