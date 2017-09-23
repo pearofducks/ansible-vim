@@ -6,7 +6,7 @@ import argparse
 import os
 import os.path
 import ansible.modules
-from ansible.utils.module_docs import get_docstring
+from ansible.utils import plugin_docs
 
 
 def get_documents():
@@ -14,7 +14,7 @@ def get_documents():
         for f in files:
             if f == '__init__.py' or not f.endswith('py'):
                 continue
-            documentation = get_docstring(os.path.join(root, f))[0]
+            documentation = plugin_docs.get_docstring(os.path.join(root, f))[0]
             if documentation is None:
                 continue
             yield documentation
