@@ -3,6 +3,8 @@ Generate Snippets Based on Ansible Modules
 
 A script to generate `UltiSnips` based on ansible code on the fly.
 
+**Note:** Requires Ansible 2.4 or later.
+
 Script parameters
 -----------------
 There are a couple of optional arguments for the script.
