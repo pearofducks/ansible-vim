@@ -135,7 +135,7 @@ if exists("g:ansible_extra_keywords_highlight")
   highlight link ansible_extra_special_keywords Statement
 endif
 
-syn keyword ansible_normal_keywords include until retries delay when only_if become become_user block rescue always notify containedin=yamlBlockMappingKey contained
+syn keyword ansible_normal_keywords include include_tasks import_tasks until retries delay when only_if become become_user block rescue always notify containedin=yamlBlockMappingKey contained
 if exists("g:ansible_normal_keywords_highlight")
   call s:normal_keywords_highlight(g:ansible_normal_keywords_highlight)
 else
