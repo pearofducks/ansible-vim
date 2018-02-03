@@ -3,25 +3,35 @@
 " Maintainer: Dave Honneffer <pearofducks@gmail.com>
 " Last Change: 2015.09.06
 
-if exists("b:current_syntax")
-  finish
-endif
-
 if !exists("main_syntax")
   let main_syntax = 'yaml'
 endif
 
-let b:current_syntax = ''
-unlet b:current_syntax
-runtime! syntax/yaml.vim
-
-let b:current_syntax = ''
-unlet b:current_syntax
-syntax include @Yaml syntax/yaml.vim
-
-let b:current_syntax = ''
-unlet b:current_syntax
+if exists('b:current_syntax')
+  let s:current_syntax=b:current_syntax
+  unlet b:current_syntax
+endif
 syntax include @Jinja syntax/jinja2.vim
+if exists('s:current_syntax')
+  let b:current_syntax=s:current_syntax
+endif
+
+
+" if !exists("main_syntax")
+"   let main_syntax = 'yaml'
+" endif
+
+" let b:current_syntax = ''
+" unlet b:current_syntax
+" runtime! syntax/yaml.vim
+
+" let b:current_syntax = ''
+" unlet b:current_syntax
+" syntax include @Yaml syntax/yaml.vim
+
+" let b:current_syntax = ''
+" unlet b:current_syntax
+" syntax include @Jinja syntax/jinja2.vim
 
 " Jinja
 " ================================
