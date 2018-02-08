@@ -92,20 +92,20 @@ By default we only highlight: `include until retries delay when only_if become b
 ##### g:ansible_normal_keywords_highlight
 `let g:ansible_normal_keywords_highlight = 'Constant'`
 
-This option accepts the first line of each option in `:help E669` - thus the first 3 options are _Comment_, _Constant_, and _Identifier_
+This accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
-This controls the highlight of the following common keywords in playbooks: `include until retries delay when only_if become become_user block rescue always notify`
+This option change the highlight of the following common keywords in playbooks: `include until retries delay when only_if become become_user block rescue always notify`
 
 ##### g:ansible_with_keywords_highlight
 `let g:ansible_with_keywords_highlight = 'Constant'`
 
-This option accepts the first line of each group in `:help E669` - thus the first 3 are _Comment_, _Constant_, and _Identifier_
+This accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
-This controls the highlight of all `with_.+` keywords in playbooks.
+This option changes the highlight of all `with_.+` keywords in playbooks.
 
 ## bugs, suggestions/requests, & contributions
 
@@ -118,9 +118,3 @@ Indenting a full document - e.g with `gg=G` - will not be supported and is not a
 ##### suggestions/requests
 
 Suggestions for improvements are welcome, pull-requests with completed features even more so. :)
-
-##### contributions
-
-Thanks to:
-
-- The developers of `salt-vim` for parts of the original YAML implementation this is based on
