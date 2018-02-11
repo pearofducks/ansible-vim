@@ -1,9 +1,8 @@
-" if exists("b:current_syntax")
-  " echom 'existed'
-  " finish
-" endif
-
-" let main_syntax = 'jinja2'
+" Vim syntax file
+" Language: Jinja2 - with special modifications for compound-filetype
+" compatibility
+" Maintainer: Dave Honneffer <pearofducks@gmail.com>
+" Last Change: 2018.02.11
 
 if !exists("main_syntax")
   let main_syntax = 'jinja2'
@@ -67,8 +66,6 @@ syn match jinjaStatement containedin=jinjaTagBlock contained /\<with\(out\)\?\s\
 
 
 " Define the default highlighting.
-" For version 5.7 and earlier: only when not done already
-" For version 5.8 and later: only when an item doesn't have highlighting yet
 if !exists("did_jinja_syn_inits")
   command -nargs=+ HiLink hi def link <args>
 
