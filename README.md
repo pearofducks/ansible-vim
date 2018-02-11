@@ -9,10 +9,10 @@ This is a vim syntax plugin for Ansible 2.0, it supports YAML playbooks, Jinja2 
 - Jinja2 templates are detected if they have a *.j2* suffix
 - Files named `hosts` will be treated as Ansible hosts files
 
-You can also set the filetype to `ansible`, `ansible_template`, or `ansible_hosts` if auto-detection does not work (e.g. `:set ft=ansible`). **Note**: If you want to detect a custom pattern of your own, you can easily add this in your `.vimrc` using something like this:
+You can also set the filetype to `yaml.ansible`, `*.jinja2`, or `ansible_hosts` if auto-detection does not work (e.g. `:set ft=yaml.ansible` or `:set ft=ruby.jinja2`). **Note**: If you want to detect a custom pattern of your own, you can easily add this in your `.vimrc` using something like this:
 
 ```vim
-au BufRead,BufNewFile */playbooks/*.yml set filetype=ansible
+au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 ```
 
 This plugin should be quite reliable, as it sources the original formats and simply modifies the highlights as appropriate. This also enables a focus on simplicity and configurability instead of patching bad syntax detection.
