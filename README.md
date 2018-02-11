@@ -111,6 +111,8 @@ Accepts a dictionary in the form of `'regex-for-file': 'filetype'`.
 - _regex-for-file_ will receive the full filepath, so directory matching can be done.
 - _filetype_ is the root filetype to be applied, `jinja2` will be automatically appended
 
+All files ending in `*.j2` that aren't matched will simply get the `jinja2` filetype.
+
 ## bugs, suggestions/requests, & contributions
 
 ##### bugs
