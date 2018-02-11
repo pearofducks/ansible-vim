@@ -43,10 +43,11 @@ endif
 highlight link yamlInteger NONE
 highlight link yamlBool NONE
 highlight link yamlFlowString NONE
-" This is only found in stephypy/vim-yaml
-highlight link yamlConstant NONE
 " but it does make sense we visualize quotes easily
 highlight link yamlFlowStringDelimiter Delimiter
+" This is only found in stephypy/vim-yaml, since it's one line it isn't worth
+" making conditional
+highlight link yamlConstant NONE
 
 fun! s:attribute_highlight(attributes)
   if a:attributes =~ 'a'
