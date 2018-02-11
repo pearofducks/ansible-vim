@@ -92,7 +92,7 @@ By default we only highlight: `include until retries delay when only_if become b
 ##### g:ansible_normal_keywords_highlight
 `let g:ansible_normal_keywords_highlight = 'Constant'`
 
-This accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
+Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
@@ -101,11 +101,18 @@ This option change the highlight of the following common keywords in playbooks: 
 ##### g:ansible_with_keywords_highlight
 `let g:ansible_with_keywords_highlight = 'Constant'`
 
-This accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
+Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
 This option changes the highlight of all `with_.+` keywords in playbooks.
+
+##### g:ansible_template_syntaxes
+`let g:ansible_template_syntaxes = { '*.rb.j2': 'ruby' }`
+
+Accepts a dictionary in the form of `'regex-for-file': 'filetype'`.
+- _regex-for-file_ will receive the full filepath, so directory matching can be done.
+- _filetype_ is the root filetype to be applied, `jinja2` will be automatically appended
 
 ## bugs, suggestions/requests, & contributions
 
