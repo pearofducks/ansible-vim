@@ -7,6 +7,7 @@ Near the end of March 2018, this plugin will update to v2 and will have a few mi
   - This _only_ breaks setups using vim plugin on-demand loading features — e.g. `{ 'for': 'ansible' }` in vim-plug. Otherwise this change should not break anything.
 2. `g:ansible_extra_syntaxes` will be deprecated in favor of `g:ansible_template_syntaxes` — which will use conditional compound filetypes, instead of sourcing all filetypes listed and hiding them under `ansible_template`.
   - While this is a complete deprecation of one setting, the new functionality is significantly better all around and should support the same use-cases.
+  - Example: a ruby+ansible-template will have a filetype of `ruby.jinja2` instead of `ansible_template`
 
 ## introduction
 
