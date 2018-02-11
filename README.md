@@ -1,3 +1,13 @@
+## upcoming breaking changes
+
+Near the end of March 2018, this plugin will update to v2 and will have a few minor breaking changes. This branch can be previewed at `v2` and should be stable.
+
+1. The filetype for playbooks will be set to `yaml.ansible`.
+  - Using a compound filetype here improves compatibility with some other plugins, and is a bit more honest about the filetypes being used. We _could_ set it to `yaml.jinja2.ansible`, if there are strong opinions on this please open an issue.
+  - This _only_ breaks setups using vim plugin on-demand loading features — e.g. `{ 'for': 'ansible' }` in vim-plug. Otherwise this change should not break anything.
+2. `g:ansible_extra_syntaxes` will be deprecated in favor of `g:ansible_template_syntaxes` — which will use conditional compound filetypes, instead of sourcing all filetypes listed and hiding them under `ansible_template`.
+  - While this is a complete deprecation of one setting, the new functionality is significantly better all around and should support the same use-cases.
+
 ## introduction
 
 This is a vim syntax plugin for Ansible 2.0, it supports YAML playbooks, Jinja2 templates, and Ansible's `hosts` files.
