@@ -48,14 +48,11 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 When this variable is set, indentation will completely reset (unindent to column 0) after two newlines in insert-mode. The normal behavior of YAML is to always keep the previous indentation, even across multiple newlines with no content.
 
-##### g:ansible_extra_syntaxes
-`let g:ansible_extra_syntaxes = "sh.vim ruby.vim"`
+##### g:ansible_yamlKeyName
 
-The space-separated options specified must be the actual syntax files, not the filetype - typically these are in something like `/usr/share/vim/syntax`. For example Bash is not `bash.vim` but seems to live in `sh.vim`.
+`let g:ansible_yamlKeyName = 'yamlKey'`
 
-This flag enables extra syntaxes to be loaded for Jinja2 templates. If you frequently work with specific filetypes in Ansible, this can help get highlighting in those files.
-
-This will *always* load these syntaxes for *all* .j2 files, and should be considered a bit of a (temporary?) hack/workaround.
+This option exists to provide additional compatibility with [stephpy/vim-yaml](https://github.com/stephpy/vim-yaml).
 
 ##### g:ansible_attribute_highlight
 `let g:ansible_attribute_highlight = "ob"`
