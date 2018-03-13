@@ -18,7 +18,7 @@ function! s:setupTemplate()
     for syntax_name in items(g:ansible_template_syntaxes)
       let s:syntax_string = '\v/'.syntax_name[0]
       if filepath =~ s:syntax_string
-        execute 'set ft='.syntax_name[1].'.jinja2'
+        execute 'setfiletype '.syntax_name[1].'.jinja2'
         return
       endif
     endfor
@@ -26,6 +26,6 @@ function! s:setupTemplate()
   set ft=jinja2
 endfunction
 
-au BufNewFile,BufRead * if s:isAnsible() | set ft=yaml.ansible | en
+au BufNewFile,BufRead * if s:isAnsible() | setfiletype yaml.ansible | en
 au BufNewFile,BufRead *.j2 call s:setupTemplate()
-au BufNewFile,BufRead hosts set ft=ansible_hosts
+au BufNewFile,BufRead hosts setfiletype ansible_hosts
