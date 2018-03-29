@@ -32,6 +32,9 @@ function! s:setupTemplate()
   set ft=jinja2
 endfunction
 
-au BufNewFile,BufRead * if s:isAnsible() | set ft=yaml.ansible | en
-au BufNewFile,BufRead *.j2 call s:setupTemplate()
-au BufNewFile,BufRead hosts set ft=ansible_hosts
+augroup filetype_ansible_vim
+    au!
+    au BufNewFile,BufRead * if s:isAnsible() | set ft=yaml.ansible | en
+    au BufNewFile,BufRead *.j2 call s:setupTemplate()
+    au BufNewFile,BufRead hosts set ft=ansible_hosts
+augroup END
