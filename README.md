@@ -22,10 +22,10 @@ This is a vim syntax plugin for Ansible 2.0, it supports YAML playbooks, Jinja2 
 - Jinja2 templates are detected if they have a *.j2* suffix
 - Files named `hosts` will be treated as Ansible hosts files
 
-You can also set the filetype to `ansible`, `ansible_template`, or `ansible_hosts` if auto-detection does not work (e.g. `:set ft=ansible`). **Note**: If you want to detect a custom pattern of your own, you can easily add this in your `.vimrc` using something like this:
+You can also set the filetype to `yaml.ansible`, `*.jinja2`, or `ansible_hosts` if auto-detection does not work (e.g. `:set ft=yaml.ansible` or `:set ft=ruby.jinja2`). **Note**: If you want to detect a custom pattern of your own, you can easily add this in your `.vimrc` using something like this:
 
 ```vim
-au BufRead,BufNewFile */playbooks/*.yml set filetype=ansible
+au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 ```
 
 This plugin should be quite reliable, as it sources the original formats and simply modifies the highlights as appropriate. This also enables a focus on simplicity and configurability instead of patching bad syntax detection.
@@ -61,14 +61,11 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 When this variable is set, indentation will completely reset (unindent to column 0) after two newlines in insert-mode. The normal behavior of YAML is to always keep the previous indentation, even across multiple newlines with no content.
 
-##### g:ansible_extra_syntaxes
-`let g:ansible_extra_syntaxes = "sh.vim ruby.vim"`
+##### g:ansible_yamlKeyName
 
-The space-separated options specified must be the actual syntax files, not the filetype - typically these are in something like `/usr/share/vim/syntax`. For example Bash is not `bash.vim` but seems to live in `sh.vim`.
+`let g:ansible_yamlKeyName = 'yamlKey'`
 
-This flag enables extra syntaxes to be loaded for Jinja2 templates. If you frequently work with specific filetypes in Ansible, this can help get highlighting in those files.
-
-This will *always* load these syntaxes for *all* .j2 files, and should be considered a bit of a (temporary?) hack/workaround.
+This option exists to provide additional compatibility with [stephpy/vim-yaml](https://github.com/stephpy/vim-yaml).
 
 ##### g:ansible_attribute_highlight
 `let g:ansible_attribute_highlight = "ob"`
@@ -105,20 +102,29 @@ By default we only highlight: `include until retries delay when only_if become b
 ##### g:ansible_normal_keywords_highlight
 `let g:ansible_normal_keywords_highlight = 'Constant'`
 
-This option accepts the first line of each option in `:help E669` - thus the first 3 options are _Comment_, _Constant_, and _Identifier_
+Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
-This controls the highlight of the following common keywords in playbooks: `include until retries delay when only_if become become_user block rescue always notify`
+This option change the highlight of the following common keywords in playbooks: `include until retries delay when only_if become become_user block rescue always notify`
 
 ##### g:ansible_with_keywords_highlight
 `let g:ansible_with_keywords_highlight = 'Constant'`
 
-This option accepts the first line of each group in `:help E669` - thus the first 3 are _Comment_, _Constant_, and _Identifier_
+Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
-This controls the highlight of all `with_.+` keywords in playbooks.
+This option changes the highlight of all `with_.+` keywords in playbooks.
+
+##### g:ansible_template_syntaxes
+`let g:ansible_template_syntaxes = { '*.rb.j2': 'ruby' }`
+
+Accepts a dictionary in the form of `'regex-for-file': 'filetype'`.
+- _regex-for-file_ will receive the full filepath, so directory matching can be done.
+- _filetype_ is the root filetype to be applied, `jinja2` will be automatically appended
+
+All files ending in `*.j2` that aren't matched will simply get the `jinja2` filetype.
 
 ## bugs, suggestions/requests, & contributions
 
@@ -131,9 +137,3 @@ Indenting a full document - e.g with `gg=G` - will not be supported and is not a
 ##### suggestions/requests
 
 Suggestions for improvements are welcome, pull-requests with completed features even more so. :)
-
-##### contributions
-
-Thanks to:
-
-- The developers of `salt-vim` for parts of the original YAML implementation this is based on
