@@ -30,7 +30,7 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 **vim-plug:** `Plug 'pearofducks/ansible-vim'`
 
 **vim-plug with post-update hook:** `Plug 'pearofducks/ansible-vim', { 'do':
-'cd ./UltiSnips; python2 generate.py' }`
+'cd ./UltiSnips; ./generate.py' }`
 
 *Note: `generate.py` requires Ansible 2.4 or later.*
 

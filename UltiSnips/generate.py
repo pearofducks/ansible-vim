@@ -24,10 +24,11 @@ def get_documents():
 def to_snippet(document):
     snippet = []
     if 'options' in document:
+        options = document['options'].items()
         if args.sort:
-            options = sorted(document['options'].items(), key=lambda x: x[1].get('required') or x[0])
-        else:
-            options = sorted(document['options'].items(), key=lambda x: x[1].get('required'), reverse=True)
+            options = sorted(options, key=lambda x: x[0])
+
+        options = sorted(options, key=lambda x: x[1].get('required', False), reverse=True)
 
         for index, (name, option) in enumerate(options, 1):
             if 'choices' in option:
@@ -55,9 +56,9 @@ def to_snippet(document):
             else:
                 snippet.append('\t%s%s${%d:%s}' % (name, delim, index, value))
 
-        # insert a line to seperate required/non-required field
+        # insert a line to seperate required/non-required fields
         for index, (_, option) in enumerate(options):
-            if option.get("required", False) is False:
+            if not option.get("required"):
                 if index != 0:
                     snippet.insert(index, '')
                 break
@@ -100,5 +101,9 @@ if __name__ == "__main__":
         for document in get_documents():
             if 'deprecated' in document:
                 continue
-            f.write(to_snippet(document).encode('utf-8'))
+            snippet = to_snippet(document)
+            if not isinstance(snippet, str):
+                # python2 compatibility
+                snippet = snippet.encode('utf-8')
+            f.write(snippet)
             f.write("\n\n")

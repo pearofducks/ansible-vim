@@ -28,7 +28,6 @@ For your reference, we list them here and you can find them under `/ansible/repo
 For Developers
 --------------
 * `pip install ansible` first
-* python **2** only, because Ansible currently doesn't offically support Python 3.
 
 Thanks
 ------
