@@ -26,6 +26,13 @@ function! s:setupTemplate()
   set ft=jinja2
 endfunction
 
-au BufNewFile,BufRead * if s:isAnsible() | set ft=yaml.ansible | en
-au BufNewFile,BufRead *.j2 call s:setupTemplate()
-au BufNewFile,BufRead hosts set ft=ansible_hosts
+if !exists('g:ansible_yaml_filetype_name')
+  let g:ansible_yaml_filetype_name = 'yaml.ansible'
+endif
+
+augroup SetupAnsible
+  au!
+  au BufNewFile,BufRead * if s:isAnsible() | execute 'set ft='.g:ansible_yaml_filetype_name | en
+  au BufNewFile,BufRead *.j2 call s:setupTemplate()
+  au BufNewFile,BufRead hosts set ft=ansible_hosts
+augroup END

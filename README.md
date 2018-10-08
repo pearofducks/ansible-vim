@@ -113,6 +113,13 @@ Accepts a dictionary in the form of `'regex-for-file': 'filetype'`.
 
 All files ending in `*.j2` that aren't matched will simply get the `jinja2` filetype.
 
+#### g:ansible_yaml_filetype_name
+`let g:ansible_yaml_filetype_name = 'yaml.ansible'`
+
+Accepts a string which will match the detected filetype for ansible yaml files.
+Useful in conjunction with ctags and tagbar, which expect `ansible.yaml`
+instead of `yaml.ansible`
+
 ## bugs, suggestions/requests, & contributions
 
 ##### bugs
