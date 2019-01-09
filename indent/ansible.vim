@@ -8,7 +8,7 @@ setlocal expandtab
 setlocal softtabstop=2
 setlocal shiftwidth=2
 setlocal commentstring=#%s
-setlocal formatoptions=cl
+setlocal formatoptions+=cl
 " c -> wrap long comments, including #
 " l -> do not wrap long lines
 
