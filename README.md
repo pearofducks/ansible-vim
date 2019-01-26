@@ -15,6 +15,15 @@ You can also set the filetype to `yaml.ansible`, `*.jinja2`, or `ansible_hosts` 
 au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
 ```
 
+If you want to override the default file type detection you can easily do this in your `.vimrc`. For example if you use YAML syntax for `hosts` include something like this:
+
+```vim
+augroup ansible_vim_fthosts
+  autocmd!
+  autocmd BufNewFile,BufRead hosts setfiletype yaml.ansible
+augroup END
+```
+
 This plugin should be quite reliable, as it sources the original formats and simply modifies the highlights as appropriate. This also enables a focus on simplicity and configurability instead of patching bad syntax detection.
 
 ##### examples (with [solarized](https://github.com/altercation/vim-colors-solarized) colorscheme)
