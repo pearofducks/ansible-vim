@@ -41,7 +41,7 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 **vim-plug with post-update hook:** `Plug 'pearofducks/ansible-vim', { 'do':
 './UltiSnips/generate.sh' }`
 
-*Note: `generate.sh` requires Ansible 2.4 or later.*
+*Note: Because of Ansible API changes, `generate.sh` may require the latest (or near-latest) version of Ansible.*
 
 **vundle:** `Plugin 'pearofducks/ansible-vim'`
 
