@@ -43,6 +43,8 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 *Note: Because of Ansible API changes, `generate.sh` may require the latest (or near-latest) version of Ansible.*
 
+*Note2: `generate.sh` can receive some parameters, for more info see its [Readme](https://github.com/pearofducks/ansible-vim/tree/master/UltiSnips#script-parameters)*
+
 **vundle:** `Plugin 'pearofducks/ansible-vim'`
 
 **pathogen:** `git clone https://github.com/pearofducks/ansible-vim ~/.vim/bundle/ansible-vim`
