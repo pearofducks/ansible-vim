@@ -9,4 +9,4 @@ PYTHONPATH="$(dirname "$ANSIBLE_MODULE_LOCATION")"
 PYTHON_VERSION=$(basename "$(dirname "$PYTHONPATH")")
 
 export PYTHONPATH
-exec "$PYTHON_VERSION" generate.py
+exec "$PYTHON_VERSION" generate.py $@
