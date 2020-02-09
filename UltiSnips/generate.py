@@ -67,7 +67,7 @@ def to_snippet(document):
         snippet.insert(0, '%s:' % (document['module']))
     else:
         snippet.insert(0, '%s:%s' % (document['module'], ' >' if len(snippet) else ''))
-    snippet.insert(0, 'snippet %s "%s" b' % (document['module'], document['short_description']))
+    snippet.insert(0, 'snippet %s "%s" b' % (document['module'], document['short_description'].replace('"', '')))
     snippet.append('')
     snippet.append('endsnippet')
     return "\n".join(snippet)
