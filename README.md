@@ -49,7 +49,8 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 **pathogen:** `git clone https://github.com/pearofducks/ansible-vim ~/.vim/bundle/ansible-vim`
 
-**Arch Linux:** Package [ansible-vim-git](https://aur.archlinux.org/packages/ansible-vim-git/) available on AUR
+**Arch Linux:** Packages [vim-ansible](https://aur.archlinux.org/packages/vim-ansible/), [vim-ansible-git](https://aur.archlinux.org/packages/vim-ansible-git/)
+are available on AUR.
 
 ## options
 
