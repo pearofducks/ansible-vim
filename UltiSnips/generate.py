@@ -45,16 +45,16 @@ def to_snippet(document):
                 if isinstance(value, bool):
                     value = 'yes' if value else 'no'
             else:
-                value = "# " + option.get('description', [''])[0]
+                value = "# " + option.get('description', [''])[0].replace('\n', '')
             if args.style == 'dictionary':
                 delim = ': '
             else:
                 delim = '='
 
             if name == 'free_form':  # special for command/shell
-                snippet.append('\t${%d:%s%s%s}' % (index, name, delim, value))
+                snippet.append('\t\t${%d:%s%s%s}' % (index, name, delim, value))
             else:
-                snippet.append('\t%s%s${%d:%s}' % (name, delim, index, value))
+                snippet.append('\t\t%s%s${%d:%s}' % (name, delim, index, value))
 
         # insert a line to seperate required/non-required fields
         for index, (_, option) in enumerate(options):
@@ -64,12 +64,11 @@ def to_snippet(document):
                 break
 
     if args.style == 'dictionary':
-        snippet.insert(0, '%s:' % (document['module']))
+        snippet.insert(0, '\t%s:' % (document['module']))
     else:
-        snippet.insert(0, '%s:%s' % (document['module'], ' >' if len(snippet) else ''))
+        snippet.insert(0, '\t%s:%s' % (document['module'], ' >' if len(snippet) else ''))
     snippet.insert(0, 'snippet %s "%s" b' % (document['module'], document['short_description'].replace('"', '')))
     snippet.append('')
-    snippet.append('endsnippet')
     return "\n".join(snippet)
 
 
@@ -97,7 +96,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     with open(args.output, "w") as f:
-        f.writelines(["priority -50\n", "\n", "# THIS FILE IS AUTOMATED GENERATED, PLEASE DON'T MODIFY BY HAND\n", "\n"])
         for document in get_documents():
             if 'deprecated' in document:
                 continue
