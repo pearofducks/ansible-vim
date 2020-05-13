@@ -124,6 +124,12 @@ Accepts a dictionary in the form of `'regex-for-file': 'filetype'`.
 
 All files ending in `*.j2` that aren't matched will simply get the `jinja2` filetype.
 
+### goto role under cursor (similar to gf)
+This behavior is not supported out of the box, but you can use following snippet in your vimrc:
+https://gist.github.com/mtyurt/3529a999af675a0aff00eb14ab1fdde3
+
+Then you'll be able to go to role under cursor's task definitions with `<leader>gr`.
+
 ## bugs, suggestions/requests, & contributions
 
 ##### bugs
