@@ -113,7 +113,7 @@ Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, an
 
 *Note:* Defaults to 'Statement' when not set.
 
-This option changes the highlight of all `with_.+` keywords in playbooks.
+This option changes the highlight of all `with_.+` keywords and `loop` in playbooks.
 
 ##### g:ansible_template_syntaxes
 `let g:ansible_template_syntaxes = { '*.rb.j2': 'ruby' }`
