@@ -51,6 +51,10 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 **Arch Linux:** Package [vim-ansible](https://www.archlinux.org/packages/community/any/vim-ansible/) is available in the *community* repository.
 
+**Fedora:** The [vim-ansible](https://src.fedoraproject.org/rpms/vim-ansible) package is available in the default repository.
+
+**RHEL/CentOS:** The [vim-ansible](https://src.fedoraproject.org/rpms/vim-ansible) package is available in the [EPEL](https://fedoraproject.org/wiki/EPEL) repository.
+
 ## options
 
 ##### g:ansible_unindent_after_newline
