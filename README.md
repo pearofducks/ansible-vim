@@ -4,7 +4,7 @@ This is a vim syntax plugin for Ansible 2.x, it supports YAML playbooks, Jinja2 
 
 - YAML playbooks are detected if:
   - they are in the `group_vars` or `host_vars` folder
-  - they are in the `tasks`, `roles`, or `handlers` folder and have either a *.yml* or *.yaml* suffix
+  - they are in the `tasks`, `roles`, `handlers`, or `playbooks` folder and have either a *.yml* or *.yaml* suffix
   - they are named `playbook.y(a)ml`, `site.y(a)ml`, or `main.y(a)ml`
 - Jinja2 templates are detected if they have a *.j2* suffix
 - Files named `hosts` will be treated as Ansible hosts files
