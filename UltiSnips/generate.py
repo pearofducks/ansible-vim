@@ -7,7 +7,6 @@ from ansible.utils.plugin_docs import get_docstring
 from ansible.plugins.loader import fragment_loader
 from typing import Any, List
 
-
 OUTPUT_FILENAME = "ansible.snippets"
 OUTPUT_STYLE = ["multiline", "dictionary"]
 HEADER = [
@@ -17,8 +16,12 @@ HEADER = [
 MAX_DESCRIPTION_LENGTH = 512
 
 
-def get_files() -> List[str]:
+def get_files(include_user: bool = False) -> List[str]:
     """Return the sorted list of all module files that ansible provides
+    Parameters
+    ----------
+    include_user: bool
+        Include modules from the user's ansible-galaxy
 
     Returns
     -------
@@ -34,6 +37,13 @@ def get_files() -> List[str]:
             for file_name in files
             if file_name.endswith(".py") and not file_name.startswith("__init__")
         ]
+    if include_user:
+        for root, dirs, files in os.walk(os.path.expanduser('~/.ansible/collections/ansible_collections/')):
+            file_names += [
+                f"{root}/{file_name}"
+                for file_name in files
+                if file_name.endswith(".py") and not file_name.startswith("__init__")
+            ]
 
     return sorted(file_names)
 
@@ -54,14 +64,14 @@ def get_docstrings(file_names: List[str]) -> List[Any]:
 
     """
 
-    docstrings: List[Any] = []
-    docstrings += [
+    found_docstrings: List[Any] = []
+    found_docstrings += [
         get_docstring(file_name, fragment_loader)[0] for file_name in file_names
     ]
     return [
-        docstring
-        for docstring in docstrings
-        if docstring and not docstring.get("deprecated")
+        current_docstring
+        for current_docstring in found_docstrings
+        if current_docstring and not current_docstring.get("deprecated")
     ]
 
 
@@ -83,11 +93,11 @@ def escape_strings(escapist: str) -> str:
 
     return (
         escapist.replace("\\", "\\\\")
-        .replace("`", "\`")
-        .replace("{", "\{")
-        .replace("}", "\}")
-        .replace("$", "\$")
-        .replace("\"", "'")
+                .replace("`", r"\`")
+                .replace("{", r"\{")
+                .replace("}", r"\}")
+                .replace("$", r"\$")
+                .replace("\"", "'")
     )
 
 
@@ -201,7 +211,7 @@ def module_options_to_snippet_options(module_options: Any) -> List[str]:
             break
 
     for index, (name, option_data) in enumerate(module_options, start=1):
-        # insert a line to seperate required/non-required options
+        # insert a line to separate required/non-required options
         if not name and not option_data:
             options += [""]
         else:
@@ -218,12 +228,12 @@ def module_options_to_snippet_options(module_options: Any) -> List[str]:
     return options
 
 
-def convert_docstring_to_snippet(docstring: Any) -> List[str]:
+def convert_docstring_to_snippet(convert_docstring: Any) -> List[str]:
     """Converts data about an Ansible module into an UltiSnips snippet string
 
     Parameters
     ----------
-    docstring: Any
+    convert_docstring: Any
         An AnsibleMapping object representing the docstring for an Ansible
         module
 
@@ -236,15 +246,15 @@ def convert_docstring_to_snippet(docstring: Any) -> List[str]:
 
     snippet: List[str] = []
     snippet_options = "b"
-    module_name = docstring["module"]
-    module_short_description = docstring["short_description"]
+    module_name = convert_docstring["module"]
+    module_short_description = convert_docstring["short_description"]
 
     snippet += [f'snippet {module_name} "{escape_strings(module_short_description)}" {snippet_options}']
     if args.style == "dictionary":
         snippet += [f"{module_name}:"]
     else:
-        snippet += [f"{module_name}:{' >' if docstring.get('options') else ''}"]
-    module_options = module_options_to_snippet_options(docstring.get("options"))
+        snippet += [f"{module_name}:{' >' if convert_docstring.get('options') else ''}"]
+    module_options = module_options_to_snippet_options(convert_docstring.get("options"))
     snippet += module_options
     snippet += ["endsnippet"]
 
@@ -265,9 +275,15 @@ if __name__ == "__main__":
         choices=OUTPUT_STYLE,
         default=OUTPUT_STYLE[0],
     )
+    parser.add_argument(
+        '--user',
+        help="Include user modules",
+        action="store_true",
+        default=False
+    )
     args = parser.parse_args()
 
-    docstrings = get_docstrings(get_files())
+    docstrings = get_docstrings(get_files(include_user=args.user))
     with open(args.output, "w") as f:
         f.writelines(f"{header}\n" for header in HEADER)
         for docstring in docstrings:
