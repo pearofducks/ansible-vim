@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-set -euo pipefail
-IFS=$'\n\t'
+#!/bin/sh
 
 cd "$(dirname "$0")"
 
