@@ -228,7 +228,7 @@ def module_options_to_snippet_options(module_options: Any) -> List[str]:
     return options
 
 
-def convert_docstring_to_snippet(convert_docstring: Any) -> List[str]:
+def convert_docstring_to_snippet(convert_docstring: Any, collection_name) -> List[str]:
     """Converts data about an Ansible module into an UltiSnips snippet string
 
     Parameters
@@ -252,9 +252,9 @@ def convert_docstring_to_snippet(convert_docstring: Any) -> List[str]:
 
         snippet += [f'snippet {module_name} "{escape_strings(module_short_description)}" {snippet_options}']
         if args.style == "dictionary":
-            snippet += [f"ansible.builtin.{module_name}:"]
+            snippet += [f"{collection_name}.{module_name}:"]
         else:
-            snippet += [f"ansible.builtin.{module_name}:{' >' if convert_docstring.get('options') else ''}"]
+            snippet += [f"{collection_name}.{module_name}:{' >' if convert_docstring.get('options') else ''}"]
         module_options = module_options_to_snippet_options(convert_docstring.get("options"))
         snippet += module_options
         snippet += ["endsnippet"]
