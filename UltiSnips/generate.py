@@ -252,9 +252,9 @@ def convert_docstring_to_snippet(convert_docstring: Any) -> List[str]:
 
         snippet += [f'snippet {module_name} "{escape_strings(module_short_description)}" {snippet_options}']
         if args.style == "dictionary":
-            snippet += [f"{module_name}:"]
+            snippet += [f"ansible.builtin.{module_name}:"]
         else:
-            snippet += [f"{module_name}:{' >' if convert_docstring.get('options') else ''}"]
+            snippet += [f"ansible.builtin.{module_name}:{' >' if convert_docstring.get('options') else ''}"]
         module_options = module_options_to_snippet_options(convert_docstring.get("options"))
         snippet += module_options
         snippet += ["endsnippet"]
