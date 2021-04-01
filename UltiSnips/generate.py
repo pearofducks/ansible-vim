@@ -261,6 +261,18 @@ def convert_docstring_to_snippet(convert_docstring: Any, collection_name) -> Lis
 
     return snippet
 
+def get_collection_name(filepath):
+    """ Returns the collection name for a full file path """
+
+    path_splitted = filepath.split('/')
+
+    collection_top_folder_index = path_splitted.index('ansible_collections')
+    collection_namespace = path_splitted[collection_top_folder_index + 1]
+    collection_name = path_splitted[collection_top_folder_index + 2]
+
+    #  print(f"{collection_namespace}.{collection_name}")
+    return f"{collection_namespace}.{collection_name}"
+
 
 if __name__ == "__main__":
 
