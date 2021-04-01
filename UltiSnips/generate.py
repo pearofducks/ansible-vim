@@ -284,10 +284,23 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    docstrings = get_docstrings(get_files(include_user=args.user))
+    docstrings_builtin = get_docstrings(get_files(include_user=False))
+
+    if args.user:
+        all_files = get_files(include_user=True)
+        user_files = []
+        for i in all_files:
+            if 'collections' in i:
+                user_files.append(i)
+        docstrings_user = get_docstrings(user_files)
+
     with open(args.output, "w") as f:
         f.writelines(f"{header}\n" for header in HEADER)
-        for docstring in docstrings:
+        for docstring in docstrings_builtin:
             f.writelines(
-                f"{line}\n" for line in convert_docstring_to_snippet(docstring)
+                f"{line}\n" for line in convert_docstring_to_snippet(docstring, "ansible.builtin")
+            )
+        for docstring in docstrings_user:
+            f.writelines(
+                f"{line}\n" for line in convert_docstring_to_snippet(docstring, "just_testing")
             )
