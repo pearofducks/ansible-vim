@@ -300,7 +300,8 @@ if __name__ == "__main__":
             f.writelines(
                 f"{line}\n" for line in convert_docstring_to_snippet(docstring, "ansible.builtin")
             )
-        for docstring in docstrings_user:
-            f.writelines(
-                f"{line}\n" for line in convert_docstring_to_snippet(docstring, "just_testing")
-            )
+        if args.user:
+            for docstring in docstrings_user:
+                f.writelines(
+                    f"{line}\n" for line in convert_docstring_to_snippet(docstring, "just_testing")
+                )
