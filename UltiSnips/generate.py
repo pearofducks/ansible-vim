@@ -300,11 +300,16 @@ if __name__ == "__main__":
 
     if args.user:
         all_files = get_files(include_user=True)
-        user_files = []
+        docstrings_user = []
         for i in all_files:
-            if 'collections' in i:
-                user_files.append(i)
-        docstrings_user = get_docstrings(user_files)
+            if 'ansible_collections' in i:
+                collection_name = get_collection_name(i)
+                tmp_list = [i]
+                tmp_docstring_list = []
+                tmp_docstring_list = get_docstrings(tmp_list)
+                if tmp_docstring_list:
+                    tmp_docstring_list[0]['collection_name'] = collection_name
+                    docstrings_user.append(tmp_docstring_list[0])
 
     with open(args.output, "w") as f:
         f.writelines(f"{header}\n" for header in HEADER)
@@ -314,6 +319,7 @@ if __name__ == "__main__":
             )
         if args.user:
             for docstring in docstrings_user:
-                f.writelines(
-                    f"{line}\n" for line in convert_docstring_to_snippet(docstring, "just_testing")
-                )
+                if 'collection_name' in docstring.keys():
+                    f.writelines(
+                        f"{line}\n" for line in convert_docstring_to_snippet(docstring, docstring['collection_name'])
+                    )
