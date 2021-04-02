@@ -291,30 +291,35 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    docstrings_builtin = get_docstrings(get_files(include_user=False))
+    builtin_modules_paths = get_files(include_user=False)
+    builtin_modules_docstrings = []
+    for f in builtin_modules_paths:
+        docstring_builtin = get_module_docstring(f)
+        if docstring_builtin and docstring_builtin not in builtin_modules_docstrings:
+            docstring_builtin['collection_name'] = "ansible.builtin"
+            builtin_modules_docstrings.append(docstring_builtin)
+    all_docstrings = builtin_modules_docstrings
 
     if args.user:
-        all_files = get_files(include_user=True)
-        docstrings_user = []
-        for i in all_files:
-            if 'ansible_collections' in i:
-                collection_name = get_collection_name(i)
-                tmp_list = [i]
-                tmp_docstring_list = []
-                tmp_docstring_list = get_docstrings(tmp_list)
-                if tmp_docstring_list:
-                    tmp_docstring_list[0]['collection_name'] = collection_name
-                    docstrings_user.append(tmp_docstring_list[0])
+        all_modules_paths = get_files(include_user=True)
+        user_modules_paths = []
+        for f in all_modules_paths:
+            if 'ansible_collections' in f:
+                user_modules_paths.append(f)
+
+        user_modules_docstrings = []
+        for f in user_modules_paths:
+            docstring_user = get_module_docstring(f)
+            if docstring_user and docstring_user not in user_modules_docstrings:
+                collection_name = get_collection_name(f)
+                docstring_user['collection_name'] = collection_name
+                user_modules_docstrings.append(docstring_user)
+
+        all_docstrings += user_modules_docstrings
 
     with open(args.output, "w") as f:
         f.writelines(f"{header}\n" for header in HEADER)
-        for docstring in docstrings_builtin:
+        for docstring in builtin_modules_docstrings:
             f.writelines(
-                f"{line}\n" for line in convert_docstring_to_snippet(docstring, "ansible.builtin")
+                f"{line}\n" for line in convert_docstring_to_snippet(docstring, docstring.get("collection_name"))
             )
-        if args.user:
-            for docstring in docstrings_user:
-                if 'collection_name' in docstring.keys():
-                    f.writelines(
-                        f"{line}\n" for line in convert_docstring_to_snippet(docstring, docstring['collection_name'])
-                    )
