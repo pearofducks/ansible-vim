@@ -48,31 +48,26 @@ def get_files(include_user: bool = False) -> List[str]:
     return sorted(file_names)
 
 
-def get_docstrings(file_names: List[str]) -> List[Any]:
-    """Extract and return a list of docstring information from a list of files
+def get_module_docstring(file_path: str) -> Any:
+    """Extract and return docstring information from a module file
 
     Parameters
     ----------
-    file_names: List[str]
-        A list of strings representing file names
+    file_names: file_path[str]
+        string representing module file
 
     Returns
     -------
-    List[Any]
-        A list of AnsibleMapping objects, representing docstring information
+    Any
+        An AnsibleMapping object, representing docstring information
         (in dict form), excluding those that are marked as deprecated.
 
     """
 
-    found_docstrings: List[Any] = []
-    found_docstrings += [
-        get_docstring(file_name, fragment_loader)[0] for file_name in file_names
-    ]
-    return [
-        current_docstring
-        for current_docstring in found_docstrings
-        if current_docstring and not current_docstring.get("deprecated")
-    ]
+    docstring = get_docstring(file_path, fragment_loader)[0]
+
+    if docstring and not docstring.get("deprecated"):
+        return docstring
 
 
 def escape_strings(escapist: str) -> str:
