@@ -32,16 +32,24 @@ def get_files(include_user: bool = False) -> List[str]:
 
     file_names: List[str] = []
     for root, dirs, files in os.walk(os.path.dirname(ansible.modules.__file__)):
+        files_without_symlinks = []
+        for f in files:
+            if not os.path.islink(os.path.join(root, f)):
+                files_without_symlinks.append(f)
         file_names += [
             f"{root}/{file_name}"
-            for file_name in files
+            for file_name in files_without_symlinks
             if file_name.endswith(".py") and not file_name.startswith("__init__")
         ]
     if include_user:
         for root, dirs, files in os.walk(os.path.expanduser('~/.ansible/collections/ansible_collections/')):
+            files_without_symlinks = []
+            for f in files:
+                if not os.path.islink(os.path.join(root, f)):
+                    files_without_symlinks.append(f)
             file_names += [
                 f"{root}/{file_name}"
-                for file_name in files
+                for file_name in files_without_symlinks
                 if file_name.endswith(".py") and not file_name.startswith("__init__")
             ]
 
