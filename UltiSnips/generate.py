@@ -50,7 +50,7 @@ def get_files(include_user: bool = False) -> List[str]:
             file_names += [
                 f"{root}/{file_name}"
                 for file_name in files_without_symlinks
-                if file_name.endswith(".py") and not file_name.startswith("__init__")
+                if file_name.endswith(".py") and not file_name.startswith("__init__") and "plugins/modules" in root
             ]
 
     return sorted(file_names)
@@ -312,7 +312,7 @@ if __name__ == "__main__":
         all_modules_paths = get_files(include_user=True)
         user_modules_paths = []
         for f in all_modules_paths:
-            if 'plugins/modules/' in f:
+            if 'ansible_collections' in f:
                 user_modules_paths.append(f)
 
         user_modules_docstrings = []
