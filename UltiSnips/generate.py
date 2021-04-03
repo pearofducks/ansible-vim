@@ -312,7 +312,7 @@ if __name__ == "__main__":
         all_modules_paths = get_files(include_user=True)
         user_modules_paths = []
         for f in all_modules_paths:
-            if 'ansible_collections' in f:
+            if 'plugins/modules/' in f:
                 user_modules_paths.append(f)
 
         user_modules_docstrings = []
