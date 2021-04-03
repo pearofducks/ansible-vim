@@ -309,12 +309,7 @@ if __name__ == "__main__":
     all_docstrings = builtin_modules_docstrings
 
     if args.user:
-        all_modules_paths = get_files(include_user=True)
-        user_modules_paths = []
-        for f in all_modules_paths:
-            if 'ansible_collections' in f:
-                user_modules_paths.append(f)
-
+        user_modules_paths = get_files(include_user=True)
         user_modules_docstrings = []
         for f in user_modules_paths:
             docstring_user = get_module_docstring(f)
