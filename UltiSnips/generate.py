@@ -312,11 +312,12 @@ if __name__ == "__main__":
         user_modules_paths = get_files(include_user=True)
         user_modules_docstrings = []
         for f in user_modules_paths:
-            docstring_user = get_module_docstring(f)
-            if docstring_user and docstring_user not in user_modules_docstrings:
-                collection_name = get_collection_name(f)
-                docstring_user['collection_name'] = collection_name
-                user_modules_docstrings.append(docstring_user)
+            if "plugins/modules/" in f:
+                docstring_user = get_module_docstring(f)
+                if docstring_user and docstring_user not in user_modules_docstrings:
+                    collection_name = get_collection_name(f)
+                    docstring_user['collection_name'] = collection_name
+                    user_modules_docstrings.append(docstring_user)
 
         all_docstrings += user_modules_docstrings
 
