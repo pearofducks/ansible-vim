@@ -2,6 +2,8 @@
 import argparse
 import os
 import os.path
+import ansible
+from packaging import version
 import ansible.modules
 from ansible.utils.plugin_docs import get_docstring
 from ansible.plugins.loader import fragment_loader
@@ -14,6 +16,7 @@ HEADER = [
     "priority -50",
 ]
 MAX_DESCRIPTION_LENGTH = 512
+ANSIBLE_VERSION = ansible.release.__version__
 
 
 def get_files(include_user: bool = False) -> List[str]:
@@ -253,11 +256,18 @@ def convert_docstring_to_snippet(convert_docstring: Any, collection_name) -> Lis
         module_name = convert_docstring["module"]
         module_short_description = convert_docstring["short_description"]
 
+        # use only the module name if ansible version < 2.10
+        if version.parse(ANSIBLE_VERSION) < version.parse("2.10"):
+            snippet_module_name = f"{module_name}:"
+        # use FQCN if ansible version is 2.10 or higher
+        else:
+            snippet_module_name = f"{collection_name}.{module_name}:"
+
         snippet += [f'snippet {module_name} "{escape_strings(module_short_description)}" {snippet_options}']
         if args.style == "dictionary":
-            snippet += [f"{collection_name}.{module_name}:"]
+            snippet += [f"{snippet_module_name}"]
         else:
-            snippet += [f"{collection_name}.{module_name}:{' >' if convert_docstring.get('options') else ''}"]
+            snippet += [f"{snippet_module_name}:{' >' if convert_docstring.get('options') else ''}"]
         module_options = module_options_to_snippet_options(convert_docstring.get("options"))
         snippet += module_options
         snippet += ["endsnippet"]
