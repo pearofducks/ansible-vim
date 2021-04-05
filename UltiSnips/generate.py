@@ -319,6 +319,14 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
 
+    if version.parse(ANSIBLE_VERSION) < version.parse("2.10"):
+        print(f"ansible version {ANSIBLE_VERSION} doesn't support FQCN")
+        print("generated snippets will only use the module name e.g. 'yum' instead of 'ansible.builtin.yum'")
+    else:
+        print(f"ansible version {ANSIBLE_VERSION} supports using FQCN")
+        print("Generated snippets will use FQCN e.g. 'ansible.builtin.yum' instead of 'yum'")
+        print("Still, you only need to type 'yum' to trigger the snippet")
+
     modules_docstrings = []
 
     builtin_modules_paths = get_files_builtin()
