@@ -19,12 +19,8 @@ MAX_DESCRIPTION_LENGTH = 512
 ANSIBLE_VERSION = ansible.release.__version__
 
 
-def get_files(include_user: bool = False) -> List[str]:
-    """Return the sorted list of all module files that ansible provides
-    Parameters
-    ----------
-    include_user: bool
-        Include modules from the user's ansible-galaxy
+def get_files_builtin() -> List[str]:
+    """Return the sorted list of all module files that ansible provides with the ansible package
 
     Returns
     -------
@@ -44,17 +40,30 @@ def get_files(include_user: bool = False) -> List[str]:
             for file_name in files_without_symlinks
             if file_name.endswith(".py") and not file_name.startswith("__init__")
         ]
-    if include_user:
-        for root, dirs, files in os.walk(os.path.expanduser('~/.ansible/collections/ansible_collections/')):
-            files_without_symlinks = []
-            for f in files:
-                if not os.path.islink(os.path.join(root, f)):
-                    files_without_symlinks.append(f)
-            file_names += [
-                f"{root}/{file_name}"
-                for file_name in files_without_symlinks
-                if file_name.endswith(".py") and not file_name.startswith("__init__") and "plugins/modules" in root
-            ]
+
+    return sorted(file_names)
+
+def get_files_user() -> List[str]:
+    """Return the sorted list of all module files provided by collections installed in the
+    user home folder ~/.ansible/collections/
+
+    Returns
+    -------
+    List[str]
+        A list of strings representing the Python module files installed in ~/.ansible/collections/
+    """
+
+    file_names: List[str] = []
+    for root, dirs, files in os.walk(os.path.expanduser('~/.ansible/collections/ansible_collections/')):
+        files_without_symlinks = []
+        for f in files:
+            if not os.path.islink(os.path.join(root, f)):
+                files_without_symlinks.append(f)
+        file_names += [
+            f"{root}/{file_name}"
+            for file_name in files_without_symlinks
+            if file_name.endswith(".py") and not file_name.startswith("__init__") and "plugins/modules" in root
+        ]
 
     return sorted(file_names)
 
@@ -309,7 +318,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    builtin_modules_paths = get_files(include_user=False)
+    builtin_modules_paths = get_files_builtin()
     builtin_modules_docstrings = []
     for f in builtin_modules_paths:
         docstring_builtin = get_module_docstring(f)
@@ -319,16 +328,14 @@ if __name__ == "__main__":
     all_docstrings = builtin_modules_docstrings
 
     if args.user:
-        user_modules_paths = get_files(include_user=True)
+        user_modules_paths = get_files_user()
         user_modules_docstrings = []
         for f in user_modules_paths:
-            if "plugins/modules/" in f:
-                docstring_user = get_module_docstring(f)
-                if docstring_user and docstring_user not in user_modules_docstrings:
-                    collection_name = get_collection_name(f)
-                    docstring_user['collection_name'] = collection_name
-                    user_modules_docstrings.append(docstring_user)
-
+            docstring_user = get_module_docstring(f)
+            if docstring_user and docstring_user not in user_modules_docstrings:
+                collection_name = get_collection_name(f)
+                docstring_user['collection_name'] = collection_name
+                user_modules_docstrings.append(docstring_user)
         all_docstrings += user_modules_docstrings
 
     with open(args.output, "w") as f:
