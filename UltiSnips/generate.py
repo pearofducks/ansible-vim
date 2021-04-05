@@ -340,7 +340,7 @@ if __name__ == "__main__":
 
     with open(args.output, "w") as f:
         f.writelines(f"{header}\n" for header in HEADER)
-        for docstring in builtin_modules_docstrings:
+        for docstring in all_docstrings:
             f.writelines(
                 f"{line}\n" for line in convert_docstring_to_snippet(docstring, docstring.get("collection_name"))
             )
