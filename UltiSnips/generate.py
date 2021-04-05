@@ -283,7 +283,7 @@ def convert_docstring_to_snippet(convert_docstring: Any, collection_name) -> Lis
 
     return snippet
 
-def get_collection_name(filepath):
+def get_collection_name(filepath:str) -> str:
     """ Returns the collection name for a full file path """
 
     path_splitted = filepath.split('/')
