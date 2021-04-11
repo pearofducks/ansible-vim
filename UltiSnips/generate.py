@@ -2,6 +2,8 @@
 import argparse
 import os
 import os.path
+import ansible
+from packaging import version
 import ansible.modules
 from ansible.utils.plugin_docs import get_docstring
 from ansible.plugins.loader import fragment_loader
@@ -14,14 +16,11 @@ HEADER = [
     "priority -50",
 ]
 MAX_DESCRIPTION_LENGTH = 512
+ANSIBLE_VERSION = ansible.release.__version__
 
 
-def get_files(include_user: bool = False) -> List[str]:
-    """Return the sorted list of all module files that ansible provides
-    Parameters
-    ----------
-    include_user: bool
-        Include modules from the user's ansible-galaxy
+def get_files_builtin() -> List[str]:
+    """Return the sorted list of all module files that ansible provides with the ansible package
 
     Returns
     -------
@@ -32,47 +31,63 @@ def get_files(include_user: bool = False) -> List[str]:
 
     file_names: List[str] = []
     for root, dirs, files in os.walk(os.path.dirname(ansible.modules.__file__)):
+        files_without_symlinks = []
+        for f in files:
+            if not os.path.islink(os.path.join(root, f)):
+                files_without_symlinks.append(f)
         file_names += [
             f"{root}/{file_name}"
-            for file_name in files
+            for file_name in files_without_symlinks
             if file_name.endswith(".py") and not file_name.startswith("__init__")
         ]
-    if include_user:
-        for root, dirs, files in os.walk(os.path.expanduser('~/.ansible/collections/ansible_collections/')):
-            file_names += [
-                f"{root}/{file_name}"
-                for file_name in files
-                if file_name.endswith(".py") and not file_name.startswith("__init__")
-            ]
+
+    return sorted(file_names)
+
+def get_files_user() -> List[str]:
+    """Return the sorted list of all module files provided by collections installed in the
+    user home folder ~/.ansible/collections/
+
+    Returns
+    -------
+    List[str]
+        A list of strings representing the Python module files installed in ~/.ansible/collections/
+    """
+
+    file_names: List[str] = []
+    for root, dirs, files in os.walk(os.path.expanduser('~/.ansible/collections/ansible_collections/')):
+        files_without_symlinks = []
+        for f in files:
+            if not os.path.islink(os.path.join(root, f)):
+                files_without_symlinks.append(f)
+        file_names += [
+            f"{root}/{file_name}"
+            for file_name in files_without_symlinks
+            if file_name.endswith(".py") and not file_name.startswith("__init__") and "plugins/modules" in root
+        ]
 
     return sorted(file_names)
 
 
-def get_docstrings(file_names: List[str]) -> List[Any]:
-    """Extract and return a list of docstring information from a list of files
+def get_module_docstring(file_path: str) -> Any:
+    """Extract and return docstring information from a module file
 
     Parameters
     ----------
-    file_names: List[str]
-        A list of strings representing file names
+    file_names: file_path[str]
+        string representing module file
 
     Returns
     -------
-    List[Any]
-        A list of AnsibleMapping objects, representing docstring information
+    Any
+        An AnsibleMapping object, representing docstring information
         (in dict form), excluding those that are marked as deprecated.
 
     """
 
-    found_docstrings: List[Any] = []
-    found_docstrings += [
-        get_docstring(file_name, fragment_loader)[0] for file_name in file_names
-    ]
-    return [
-        current_docstring
-        for current_docstring in found_docstrings
-        if current_docstring and not current_docstring.get("deprecated")
-    ]
+    docstring = get_docstring(file_path, fragment_loader)[0]
+
+    if docstring and not docstring.get("deprecated"):
+        return docstring
 
 
 def escape_strings(escapist: str) -> str:
@@ -228,7 +243,7 @@ def module_options_to_snippet_options(module_options: Any) -> List[str]:
     return options
 
 
-def convert_docstring_to_snippet(convert_docstring: Any) -> List[str]:
+def convert_docstring_to_snippet(convert_docstring: Any, collection_name) -> List[str]:
     """Converts data about an Ansible module into an UltiSnips snippet string
 
     Parameters
@@ -250,16 +265,35 @@ def convert_docstring_to_snippet(convert_docstring: Any) -> List[str]:
         module_name = convert_docstring["module"]
         module_short_description = convert_docstring["short_description"]
 
+        # use only the module name if ansible version < 2.10
+        if version.parse(ANSIBLE_VERSION) < version.parse("2.10"):
+            snippet_module_name = f"{module_name}:"
+        # use FQCN if ansible version is 2.10 or higher
+        else:
+            snippet_module_name = f"{collection_name}.{module_name}:"
+
         snippet += [f'snippet {module_name} "{escape_strings(module_short_description)}" {snippet_options}']
         if args.style == "dictionary":
-            snippet += [f"{module_name}:"]
+            snippet += [f"{snippet_module_name}"]
         else:
-            snippet += [f"{module_name}:{' >' if convert_docstring.get('options') else ''}"]
+            snippet += [f"{snippet_module_name}:{' >' if convert_docstring.get('options') else ''}"]
         module_options = module_options_to_snippet_options(convert_docstring.get("options"))
         snippet += module_options
         snippet += ["endsnippet"]
 
     return snippet
+
+def get_collection_name(filepath:str) -> str:
+    """ Returns the collection name for a full file path """
+
+    path_splitted = filepath.split('/')
+
+    collection_top_folder_index = path_splitted.index('ansible_collections')
+    collection_namespace = path_splitted[collection_top_folder_index + 1]
+    collection_name = path_splitted[collection_top_folder_index + 2]
+
+    #  print(f"{collection_namespace}.{collection_name}")
+    return f"{collection_namespace}.{collection_name}"
 
 
 if __name__ == "__main__":
@@ -284,10 +318,36 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    docstrings = get_docstrings(get_files(include_user=args.user))
+
+    if version.parse(ANSIBLE_VERSION) < version.parse("2.10"):
+        print(f"ansible version {ANSIBLE_VERSION} doesn't support FQCN")
+        print("generated snippets will only use the module name e.g. 'yum' instead of 'ansible.builtin.yum'")
+    else:
+        print(f"ansible version {ANSIBLE_VERSION} supports using FQCN")
+        print("Generated snippets will use FQCN e.g. 'ansible.builtin.yum' instead of 'yum'")
+        print("Still, you only need to type 'yum' to trigger the snippet")
+
+    modules_docstrings = []
+
+    builtin_modules_paths = get_files_builtin()
+    for f in builtin_modules_paths:
+        docstring_builtin = get_module_docstring(f)
+        if docstring_builtin and docstring_builtin not in modules_docstrings:
+            docstring_builtin['collection_name'] = "ansible.builtin"
+            modules_docstrings.append(docstring_builtin)
+
+    if args.user:
+        user_modules_paths = get_files_user()
+        for f in user_modules_paths:
+            docstring_user = get_module_docstring(f)
+            if docstring_user and docstring_user not in modules_docstrings:
+                collection_name = get_collection_name(f)
+                docstring_user['collection_name'] = collection_name
+                modules_docstrings.append(docstring_user)
+
     with open(args.output, "w") as f:
         f.writelines(f"{header}\n" for header in HEADER)
-        for docstring in docstrings:
+        for docstring in modules_docstrings:
             f.writelines(
-                f"{line}\n" for line in convert_docstring_to_snippet(docstring)
+                f"{line}\n" for line in convert_docstring_to_snippet(docstring, docstring.get("collection_name"))
             )
