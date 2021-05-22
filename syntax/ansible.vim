@@ -83,11 +83,11 @@ execute 'syn keyword ansible_debug_keywords debug containedin='.s:yamlKey.' cont
 highlight default link ansible_debug_keywords Debug
 
 if exists("g:ansible_extra_keywords_highlight")
-  execute 'syn keyword ansible_extra_special_keywords register always_run changed_when failed_when no_log args vars delegate_to ignore_errors containedin='.s:yamlKey.' contained'
+  execute 'syn keyword ansible_extra_special_keywords debugger register always_run changed_when failed_when no_log args vars vars_prompt delegate_to ignore_errors roles tags containedin='.s:yamlKey.' contained'
   highlight link ansible_extra_special_keywords Statement
 endif
 
-execute 'syn keyword ansible_normal_keywords include include_tasks import_tasks until retries delay when only_if become become_user block rescue always notify containedin='.s:yamlKey.' contained'
+execute 'syn keyword ansible_normal_keywords include include_tasks import_tasks include_role import_role import_playbook until retries delay when only_if become become_user become_method become_flags become_pass become_exe block rescue always notify listen containedin='.s:yamlKey.' contained'
 if exists("g:ansible_normal_keywords_highlight")
   execute 'highlight link ansible_normal_keywords '.g:ansible_normal_keywords_highlight
 else
