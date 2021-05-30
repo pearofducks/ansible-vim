@@ -92,7 +92,11 @@ if exists("g:ansible_extra_keywords_highlight")
               \ environment fact_path gather_facts gather_subset gather_timeout
               \ async poll throttle timeout order run_once serial strategy
               \ containedin='.s:yamlKey.' contained'
-  highlight link ansible_extra_special_keywords Statement
+  if exists("g:ansible_extra_keywords_highlight_group")
+    execute 'highlight link ansible_extra_special_keywords '.g:ansible_extra_keywords_highlight_group
+  else
+    highlight link ansible_extra_special_keywords Statement
+  endif
 endif
 
 execute 'syn keyword ansible_normal_keywords
