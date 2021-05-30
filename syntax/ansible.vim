@@ -94,18 +94,12 @@ else
   highlight default link ansible_normal_keywords Statement
 endif
 
-execute 'syn match ansible_with_keywords "\vwith_.+" containedin='.s:yamlKey.' contained'
-if exists("g:ansible_with_keywords_highlight")
-  execute 'highlight link ansible_with_keywords '.g:ansible_with_keywords_highlight
+execute 'syn keyword ansible_loop_keywords loop loop_control containedin='.s:yamlKey.' contained'
+execute 'syn match ansible_loop_keywords "\vwith_.+" containedin='.s:yamlKey.' contained'
+if exists("g:ansible_loop_keywords_highlight")
+  execute 'highlight link ansible_loop_keywords '.g:ansible_loop_keywords_highlight
 else
-  highlight default link ansible_with_keywords Statement
-endif
-
-execute 'syn keyword ansible_with_keywords loop loop_control containedin='.s:yamlKey.' contained'
-if exists("g:ansible_with_keywords_highlight")
-  execute 'highlight link ansible_with_keywords '.g:ansible_with_keywords_highlight
-else
-  highlight default link ansible_with_keywords Statement
+  highlight default link ansible_loop_keywords Statement
 endif
 
 let b:current_syntax = "ansible"
