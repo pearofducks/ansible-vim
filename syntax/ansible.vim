@@ -98,6 +98,9 @@ execute 'syn keyword ansible_loop_keywords loop loop_control until retries delay
 execute 'syn match ansible_loop_keywords "\vwith_.+" containedin='.s:yamlKey.' contained'
 if exists("g:ansible_loop_keywords_highlight")
   execute 'highlight link ansible_loop_keywords '.g:ansible_loop_keywords_highlight
+" backward compatibility: ansible_with_keywords_highlight replaced by ansible_loop_keywords_highlight
+elseif exists("g:ansible_with_keywords_highlight")
+  execute 'highlight link ansible_loop_keywords '.g:ansible_with_keywords_highlight
 else
   highlight default link ansible_loop_keywords Statement
 endif
