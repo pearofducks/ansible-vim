@@ -83,18 +83,32 @@ execute 'syn keyword ansible_debug_keywords debug containedin='.s:yamlKey.' cont
 highlight default link ansible_debug_keywords Debug
 
 if exists("g:ansible_extra_keywords_highlight")
-  execute 'syn keyword ansible_extra_special_keywords debugger register always_run changed_when failed_when no_log args vars vars_prompt delegate_to ignore_errors roles tags containedin='.s:yamlKey.' contained'
+  execute 'syn keyword ansible_extra_special_keywords
+              \ become become_exe become_flags become_method become_user become_pass prompt_l10n
+              \ debugger always_run check_mode diff no_log args tags force_handlers
+              \ vars vars_files vars_prompt delegate_facts delegate_to
+              \ any_errors_fatal ignore_errors ignore_unreachable max_fail_percentage
+              \ connection hosts port remote_user module_defaults
+              \ environment fact_path gather_facts gather_subset gather_timeout
+              \ async poll throttle timeout order run_once serial strategy
+              \ containedin='.s:yamlKey.' contained'
   highlight link ansible_extra_special_keywords Statement
 endif
 
-execute 'syn keyword ansible_normal_keywords include include_tasks import_tasks include_role import_role import_playbook when become become_user become_method become_flags become_pass become_exe block rescue always notify listen containedin='.s:yamlKey.' contained'
+execute 'syn keyword ansible_normal_keywords
+            \ include include_role include_tasks include_vars import_role import_playbook import_tasks
+            \ when changed_when failed_when block rescue always notify listen register
+            \ action local_action post_tasks pre_tasks tasks handlers roles collections
+            \ containedin='.s:yamlKey.' contained'
 if exists("g:ansible_normal_keywords_highlight")
   execute 'highlight link ansible_normal_keywords '.g:ansible_normal_keywords_highlight
 else
   highlight default link ansible_normal_keywords Statement
 endif
 
-execute 'syn keyword ansible_loop_keywords loop loop_control until retries delay containedin='.s:yamlKey.' contained'
+execute 'syn keyword ansible_loop_keywords
+            \ loop loop_control until retries delay
+            \ containedin='.s:yamlKey.' contained'
 execute 'syn match ansible_loop_keywords "\vwith_.+" containedin='.s:yamlKey.' contained'
 if exists("g:ansible_loop_keywords_highlight")
   execute 'highlight link ansible_loop_keywords '.g:ansible_loop_keywords_highlight
