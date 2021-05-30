@@ -95,7 +95,7 @@ if exists("g:ansible_extra_keywords_highlight")
   if exists("g:ansible_extra_keywords_highlight_group")
     execute 'highlight link ansible_extra_special_keywords '.g:ansible_extra_keywords_highlight_group
   else
-    highlight link ansible_extra_special_keywords Statement
+    highlight link ansible_extra_special_keywords Structure
   endif
 endif
 
