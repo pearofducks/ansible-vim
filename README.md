@@ -97,27 +97,34 @@ Available flags (this feature is off by default):
 
 *Note:* This option is enabled when set, and disabled when not set.
 
-Highlight the following additional keywords: `debugger register always_run changed_when failed_when no_log args vars vars_prompt delegate_to ignore_errors roles tags`
+Highlight the following additional keywords: `become become_exe become_flags become_method become_user become_pass prompt_l10n debugger always_run check_mode diff no_log args tags force_handlers vars vars_files vars_prompt delegate_facts delegate_to any_errors_fatal ignore_errors ignore_unreachable max_fail_percentage connection hosts port remote_user module_defaults environment fact_path gather_facts gather_subset gather_timeout async poll throttle timeout order run_once serial strategy`.
 
-By default we only highlight: `include include_tasks import_tasks include_role import_role import_playbook until retries delay when only_if become become_user become_method become_flags become_pass become_exe block rescue always notify listen`.
+By default we only highlight: `include include_role include_tasks include_vars import_role import_playbook import_tasks when changed_when failed_when block rescue always notify listen register action local_action post_tasks pre_tasks tasks handlers roles collections` and loop keywords `with_.+`, `loop`, `loop_control`, `until`, `retries`, `delay`.
+
+##### g:ansible_extra_keywords_highlight_group
+`let g:ansible_extra_keywords_highlight_group = 'Statement'`
+
+Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
+
+*Note:* Defaults to 'Structure' when not set.
 
 ##### g:ansible_normal_keywords_highlight
 `let g:ansible_normal_keywords_highlight = 'Constant'`
 
-Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
+Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
-This option change the highlight of the following common keywords: `include include_tasks import_tasks include_role import_role import_playbook until retries delay when only_if become become_user become_method become_flag become_pass become_exe block rescue always notify listen`.
+This option change the highlight of the following common keywords: `include include_role include_tasks include_vars import_role import_playbook import_tasks when changed_when failed_when block rescue always notify listen register action local_action post_tasks pre_tasks tasks handlers roles collections`.
 
-##### g:ansible_with_keywords_highlight
-`let g:ansible_with_keywords_highlight = 'Constant'`
+##### g:ansible_loop_keywords_highlight
+`let g:ansible_loop_keywords_highlight = 'Constant'`
 
-Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, and _Identifier_
+Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
 
 *Note:* Defaults to 'Statement' when not set.
 
-This option changes the highlight of all `with_.+`, `loop` and `loop_control` keywords.
+This option changes the highlight of all `with_.+`, `loop`, `loop_control`, `until`, `retries` and `delay` keywords.
 
 ##### g:ansible_template_syntaxes
 `let g:ansible_template_syntaxes = { '*.rb.j2': 'ruby' }`
