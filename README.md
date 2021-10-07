@@ -135,6 +135,13 @@ Accepts a dictionary in the form of `'regex-for-file': 'filetype'`.
 
 All files ending in `*.j2` that aren't matched will simply get the `jinja2` filetype.
 
+##### g:ansible_ftdetect_filename_regex
+`let g:ansible_ftdetect_filename_regex = '\v(playbook|site|main|local|requirements)\.ya?ml$'`
+
+Accepts a regex string that is used to match the filename to determine if the file should use the Ansible filetype
+
+Can be used to avoid clashes with other files that are named the same - e.g. main.yaml used in github workflows by removing `main` from the regex
+
 ## goto role under cursor (similar to gf)
 
 This behavior is not supported out of the box, but you can use [this snippet](https://gist.github.com/mtyurt/3529a999af675a0aff00eb14ab1fdde3) in your vimrc.
