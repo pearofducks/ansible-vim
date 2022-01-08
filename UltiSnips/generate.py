@@ -220,7 +220,7 @@ def module_options_to_snippet_options(module_options: Any) -> List[str]:
 
     # insert an empty option above the list of non-required options
     for index, (_, option) in enumerate(module_options):
-        if not option.get("required"):
+        if not option.get("required") and not args.comment_non_required:
             if index != 0:
                 module_options.insert(index, (None, None))
             break
@@ -230,14 +230,19 @@ def module_options_to_snippet_options(module_options: Any) -> List[str]:
         if not name and not option_data:
             options += [""]
         else:
+            # set comment character for non-required options
+            if not option_data.get("required") and args.comment_non_required:
+                comment = "#"
+            else:
+                comment = ""
             # the free_form option in some modules are special
             if name == "free_form":
                 options += [
-                    f"\t${{{index}:{name}{delimiter}{option_data_to_snippet_completion(option_data)}}}"
+                    f"\t{comment}${{{index}:{name}{delimiter}{option_data_to_snippet_completion(option_data)}}}"
                 ]
             else:
                 options += [
-                    f"\t{name}{delimiter}${{{index}:{option_data_to_snippet_completion(option_data)}}}"
+                    f"\t{comment}{name}{delimiter}${{{index}:{option_data_to_snippet_completion(option_data)}}}"
                 ]
 
     return options
@@ -319,6 +324,12 @@ if __name__ == "__main__":
     parser.add_argument(
         '--no-description',
         help="Remove options description",
+        action="store_true",
+        default=False
+    )
+    parser.add_argument(
+        '--comment-non-required',
+        help="Comment non-required options",
         action="store_true",
         default=False
     )
