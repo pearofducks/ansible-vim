@@ -150,7 +150,7 @@ def option_data_to_snippet_completion(option_data: Any) -> str:
             return "false"
 
     # if there is no default and no choices, return the description
-    if not choices and default is None:
+    if not choices and default is None and not args.no_description:
         return f"# {description}"
 
     # if there is a default but no choices return the default as string
@@ -318,6 +318,12 @@ if __name__ == "__main__":
     parser.add_argument(
         '--user',
         help="Include user modules",
+        action="store_true",
+        default=False
+    )
+    parser.add_argument(
+        '--no-description',
+        help="Remove options description",
         action="store_true",
         default=False
     )
