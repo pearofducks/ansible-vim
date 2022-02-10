@@ -56,7 +56,7 @@ def get_files_collections(user: bool = False) -> List[str]:
     Returns
     -------
     List[str]
-        A list of strings representing the Python module files installed in the specified
+        A list of strings representing the Python module files provided by collections
     """
 
     if user:
