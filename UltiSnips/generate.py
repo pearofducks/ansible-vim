@@ -43,18 +43,29 @@ def get_files_builtin() -> List[str]:
 
     return sorted(file_names)
 
-def get_files_user() -> List[str]:
-    """Return the sorted list of all module files provided by collections installed in the
-    user home folder ~/.ansible/collections/
+
+def get_files_collections(user: bool = False) -> List[str]:
+    """Return the sorted list of all module files provided by collections installed in either
+    the system folder /usr/share/ansible/collections/ or user folder ~/.ansible/collections/
+
+    Parameters
+    ----------
+    user: bool (default: False)
+        A boolean indicating whether to get collections installed in the user folder
 
     Returns
     -------
     List[str]
-        A list of strings representing the Python module files installed in ~/.ansible/collections/
+        A list of strings representing the Python module files provided by collections
     """
 
+    if user:
+        collection_path = '~/.ansible/collections/ansible_collections/'
+    else:
+        collection_path = '/usr/share/ansible/collections/ansible_collections/'
+
     file_names: List[str] = []
-    for root, dirs, files in os.walk(os.path.expanduser('~/.ansible/collections/ansible_collections/')):
+    for root, dirs, files in os.walk(os.path.expanduser(collection_path)):
         files_without_symlinks = []
         for f in files:
             if not os.path.islink(os.path.join(root, f)):
@@ -353,8 +364,16 @@ if __name__ == "__main__":
             docstring_builtin['collection_name'] = "ansible.builtin"
             modules_docstrings.append(docstring_builtin)
 
+    system_modules_paths = get_files_collections()
+    for f in system_modules_paths:
+        docstring_system = get_module_docstring(f)
+        if docstring_system and docstring_system not in modules_docstrings:
+            collection_name = get_collection_name(f)
+            docstring_system['collection_name'] = collection_name
+            modules_docstrings.append(docstring_system)
+
     if args.user:
-        user_modules_paths = get_files_user()
+        user_modules_paths = get_files_collections(user=True)
         for f in user_modules_paths:
             docstring_user = get_module_docstring(f)
             if docstring_user and docstring_user not in modules_docstrings:
