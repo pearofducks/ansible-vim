@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language: Ansible YAML/Jinja templates
 " Maintainer: Dave Honneffer <pearofducks@gmail.com>
-" Last Change: 2018.02.08
+" Last Change: 2023.10.18
 
 if !exists("main_syntax")
   let main_syntax = 'yaml'
@@ -79,7 +79,7 @@ if exists("g:ansible_name_highlight")
   endif
 endif
 
-execute 'syn keyword ansible_debug_keywords debug containedin='.s:yamlKey.' contained'
+execute 'syn match ansible_debug_keywords "\%(ansible\.builtin\.\)\?debug" containedin='.s:yamlKey.' contained'
 highlight default link ansible_debug_keywords Debug
 
 if exists("g:ansible_extra_keywords_highlight")
@@ -99,11 +99,12 @@ if exists("g:ansible_extra_keywords_highlight")
   endif
 endif
 
-execute 'syn keyword ansible_normal_keywords
-            \ include include_role include_tasks include_vars import_role import_playbook import_tasks
-            \ when changed_when failed_when block rescue always notify listen register
-            \ action local_action post_tasks pre_tasks tasks handlers roles collections
-            \ containedin='.s:yamlKey.' contained'
+execute 'syn match ansible_normal_keywords "'.
+      \ '\%(ansible\.builtin\.\)\?'.
+      \ '\%(include\|include_role\|include_tasks\|include_vars\|import_role\|import_playbook\|import_tasks\|'.
+      \ 'when\|changed_when\|failed_when\|block\|rescue\|always\|notify\|listen\|register\|'.
+      \ 'action\|local_action\|post_tasks\|pre_tasks\|tasks\|handlers\|roles\|collections\)'.
+      \ ':" containedin='.s:yamlKey.' contained'
 if exists("g:ansible_normal_keywords_highlight")
   execute 'highlight link ansible_normal_keywords '.g:ansible_normal_keywords_highlight
 else
