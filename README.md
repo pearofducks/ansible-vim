@@ -108,7 +108,7 @@ Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, _I
 
 *Note:* Defaults to 'Structure' when not set.
 
-##### g:ansible_normal_keywords_highlight
+##### g:ansible_fqcn_highlight
 `let g:ansible_fqcn_highlight = 'Constant'`
 
 Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
