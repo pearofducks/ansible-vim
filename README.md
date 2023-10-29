@@ -109,6 +109,15 @@ Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, _I
 *Note:* Defaults to 'Structure' when not set.
 
 ##### g:ansible_normal_keywords_highlight
+`let g:ansible_fqcn_highlight = 'Constant'`
+
+Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
+
+*Note:* Defaults to 'Statement' when not set.
+
+*Note:* The `.` in the FCQN can also be highlighted via a modification to a [Vim syntax internal](https://stackoverflow.com/questions/69781626/how-to-do-syntax-highlighting-for-a-keyword-containing-a-period). This plugin will not do this automatically.
+
+##### g:ansible_normal_keywords_highlight
 `let g:ansible_normal_keywords_highlight = 'Constant'`
 
 Accepts any syntax group name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
