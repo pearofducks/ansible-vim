@@ -71,7 +71,7 @@ else
 endif
 
 if exists("g:ansible_name_highlight")
-  execute 'syn keyword ansible_name name containedin='.s:yamlKey.' contained'
+  execute 'syn match ansible_name "^\s*-\s\+name:"'
   if g:ansible_name_highlight =~ 'd'
     highlight link ansible_name Comment
   else
