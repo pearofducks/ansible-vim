@@ -21,8 +21,6 @@ endif
 const builtin_modules_file = expand("<sfile>:h:p") . "/builtin_modules.vim"
 execute "source " . builtin_modules_file
 
-echo builtin_modules
-
 " Jinja
 " ================================
 

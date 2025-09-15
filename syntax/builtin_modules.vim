@@ -80,3 +80,46 @@ for module in g:builtin_modules
 endfor
 
 highlight default link ansible_builtin_modules Keyword
+
+def CompleteModules(findstart: number, base: string): any
+	var matches = []
+	const last_string = g:GetStrBehindCursor()
+	const prefix_end = matchend(last_string, 'ansible\.builtin\.')
+	# Warning: the cursor moves after the first invokation, so don't use
+	# last_string or prefix_end in the second invocation
+
+	# remove ansible.builtin. prefix from last_string
+	const partial_module = strcharpart(last_string, prefix_end)
+
+	if findstart == 1
+		if last_string == ''
+			return -3
+		endif
+
+		if prefix_end == -1
+			return -3
+		endif
+
+		return col('.') - strlen(partial_module) - 1
+	endif
+
+	for item in g:builtin_modules
+		if match(item, '^' .. base) >= 0
+			add(matches, item)
+		endif
+	endfor
+
+	return matches
+enddef
+
+def g:GetStrBehindCursor(): string
+	const str_start = searchpos('\s', 'bn', line('.'))[1]
+	const length = col('.') - str_start
+
+	return strcharpart(getline('.'), str_start, length)
+enddef
+
+
+# set the custom omnifunction
+setlocal completeopt=menu,menuone,noselect
+setlocal omnifunc=CompleteModules
