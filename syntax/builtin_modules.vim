@@ -87,7 +87,7 @@ highlight default link ansible_builtin_modules Keyword
 
 def CompleteModules(findstart: number, base: string): any
 	var matches = []
-	const last_string = g:GetStrBehindCursor()
+	const last_string = GetStrBehindCursor()
 	const prefix_end = matchend(last_string, 'ansible\.builtin\.')
 	# Warning: the cursor moves after the first invokation, so don't use
 	# last_string or prefix_end in the second invocation
@@ -116,7 +116,7 @@ def CompleteModules(findstart: number, base: string): any
 	return matches
 enddef
 
-def g:GetStrBehindCursor(): string
+def GetStrBehindCursor(): string
 	const str_start = searchpos('\s', 'bn', line('.'))[1]
 	const length = col('.') - str_start
 
