@@ -1,6 +1,6 @@
 vim9script
 
-const g:builtin_modules =
+const builtin_modules =
 	[
 		'add_host',
 		'apt',
@@ -74,12 +74,16 @@ const g:builtin_modules =
 		'yum_repository',
 	]
 
-for module in g:builtin_modules
+# syntax highlighting
+
+for module in builtin_modules
 	var module_regex = 'ansible\.builtin\.' .. module
 	execute 'syn match ansible_builtin_modules "' .. module_regex .. '"'
 endfor
 
 highlight default link ansible_builtin_modules Keyword
+
+# completion
 
 def CompleteModules(findstart: number, base: string): any
 	var matches = []
@@ -103,7 +107,7 @@ def CompleteModules(findstart: number, base: string): any
 		return col('.') - strlen(partial_module) - 1
 	endif
 
-	for item in g:builtin_modules
+	for item in builtin_modules
 		if match(item, '^' .. base) >= 0
 			add(matches, item)
 		endif
