@@ -73,3 +73,10 @@ const g:builtin_modules =
 		'wait_for_connection',
 		'yum_repository',
 	]
+
+for module in g:builtin_modules
+	var module_regex = 'ansible\.builtin\.' .. module
+	execute 'syn match ansible_builtin_modules "' .. module_regex .. '"'
+endfor
+
+highlight default link ansible_builtin_modules Keyword
