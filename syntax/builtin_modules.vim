@@ -1,6 +1,6 @@
 vim9script
 
-const builtin_modules = 
+const g:builtin_modules =
 	[
 		'add_host',
 		'apt',

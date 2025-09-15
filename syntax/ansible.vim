@@ -18,6 +18,11 @@ if exists('s:current_syntax')
   let b:current_syntax=s:current_syntax
 endif
 
+const builtin_modules_file = expand("<sfile>:h:p") . "/builtin_modules.vim"
+execute "source " . builtin_modules_file
+
+echo builtin_modules
+
 " Jinja
 " ================================
 
