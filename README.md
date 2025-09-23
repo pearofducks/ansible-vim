@@ -55,6 +55,11 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 **RHEL/CentOS:** The [vim-ansible](https://src.fedoraproject.org/rpms/vim-ansible) package is available in the [EPEL](https://fedoraproject.org/wiki/EPEL) repository.
 
+Or using vim packages:
+```
+git clone https://github.com/pearofducks/ansible-vim.git "${HOME}/.vim/pack/plugins/start/ansible-vim"
+```
+
 ## options
 
 ##### g:ansible_unindent_after_newline
@@ -135,6 +140,15 @@ Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, _I
 
 This option changes the highlight of all `with_.+`, `loop`, `loop_control`, `until`, `retries` and `delay` keywords.
 
+##### g:ansible_builtin_modules_highlight
+`let g:ansible_builtin_modules_highlight = 'Constant'`
+
+Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
+
+*Note:* Defaults to 'Statement' when not set.
+
+This option changes the highlight of all ansible builtin modules keywords - e.g. `ansible.builtin.user`.
+
 ##### g:ansible_template_syntaxes
 `let g:ansible_template_syntaxes = { '*.rb.j2': 'ruby' }`
 
@@ -156,6 +170,12 @@ Can be used to avoid clashes with other files that are named the same - e.g. mai
 This behavior is not supported out of the box, but you can use [this snippet](https://gist.github.com/mtyurt/3529a999af675a0aff00eb14ab1fdde3) in your vimrc.
 
 You'll then be able to go to a role's definition with `<leader>gr`.
+
+## completion for the ansible builtin modules
+
+After the pattern `ansible.builtin.` completion for the ansible builtin modules works with CTRL-X CTRL-O.
+
+See `:h omnifunc` and `:h ins-completion`.
 
 ## bugs, suggestions/requests, & contributions
 
