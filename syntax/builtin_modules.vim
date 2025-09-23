@@ -118,7 +118,7 @@ enddef
 
 def GetStrBehindCursor(): string
 	const str_start = searchpos('\s', 'bn', line('.'))[1]
-	const length = col('.') - str_start
+	const length = col('.') - str_start - 1
 
 	return strcharpart(getline('.'), str_start, length)
 enddef
