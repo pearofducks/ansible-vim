@@ -177,6 +177,8 @@ After the pattern `ansible.builtin.` completion for the ansible builtin modules 
 
 See `:h omnifunc` and `:h ins-completion`.
 
+<img width="417" height="121" alt="vim-ansible-comletion_2" src="https://github.com/user-attachments/assets/db72891e-1d97-47a3-9337-35db9967e9d1" />
+
 ## bugs, suggestions/requests, & contributions
 
 ##### bugs
