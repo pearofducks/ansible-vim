@@ -81,7 +81,11 @@ for module in builtin_modules
 	execute 'syn match ansible_builtin_modules "' .. module_regex .. '"'
 endfor
 
-highlight default link ansible_builtin_modules Keyword
+if exists("g:ansible_builtin_modules_highlight")
+	execute 'highlight default link ansible_builtin_modules ' .. g:ansible_builtin_modules_highlight
+else
+	highlight default link ansible_builtin_modules Statement
+endif
 
 # completion
 
