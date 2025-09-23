@@ -55,7 +55,7 @@ Use your favorite plugin manager, or try [vim-plug](https://github.com/junegunn/
 
 **RHEL/CentOS:** The [vim-ansible](https://src.fedoraproject.org/rpms/vim-ansible) package is available in the [EPEL](https://fedoraproject.org/wiki/EPEL) repository.
 
-Or using vim packages:
+Or using **vim packages**:
 ```
 git clone https://github.com/pearofducks/ansible-vim.git "${HOME}/.vim/pack/plugins/start/ansible-vim"
 ```
