@@ -173,6 +173,8 @@ You'll then be able to go to a role's definition with `<leader>gr`.
 
 ## completion for the ansible builtin modules
 
+*NOTE: This feature needs vim version >= 9.*
+
 After the pattern `ansible.builtin.` completion for the ansible builtin modules works with CTRL-X CTRL-O.
 
 See `:h omnifunc` and `:h ins-completion`.

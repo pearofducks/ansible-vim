@@ -1,3 +1,7 @@
+if !has('vim9script')
+	finish
+endif
+
 vim9script
 
 const builtin_modules =
