@@ -45,5 +45,6 @@ augroup ansible_vim_ftjinja2
 augroup END
 augroup ansible_vim_fthosts
     au!
-    au BufNewFile,BufRead hosts set ft=ansible_hosts
+    au BufNewFile,BufRead hosts
+      \ if expand("%:p") !=# "/etc/hosts" | set ft=ansible_hosts | en
 augroup END
