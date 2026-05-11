@@ -30,6 +30,11 @@ endif
 let builtin_modules_file = expand("<sfile>:h:p") . "/builtin_modules.vim"
 execute "source " . builtin_modules_file
 
+if exists('g:ansible_doc_keywordprg') && g:ansible_doc_keywordprg != 0
+	let ansible_doc_file = expand("<sfile>:h:p") . "/ansible_doc.vim"
+	execute "source " . ansible_doc_file
+endif
+
 " Jinja
 " ================================
 
