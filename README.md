@@ -144,7 +144,10 @@ Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, _I
 
 This option changes the highlight of all `with_.+`, `loop`, `loop_control`, `until`, `retries` and `delay` keywords.
 
-##### g:ansible_builtin_modules_highlight
+##### g:ansible_builtin_modules_highlight (vim9script feature)
+
+(Does not exist in `neovim`.)
+
 `let g:ansible_builtin_modules_highlight = 'Constant'`
 
 Accepts any syntax group-name from `:help E669` - e.g. _Comment_, _Constant_, _Identifier_
@@ -168,6 +171,17 @@ All files ending in `*.j2` that aren't matched will simply get the `jinja2` file
 Accepts a regex string that is used to match the filename to determine if the file should use the Ansible filetype
 
 Can be used to avoid clashes with other files that are named the same - e.g. main.yaml used in github workflows by removing `main` from the regex
+
+##### g:ansible_doc_keywordprg (vim9script feature)
+
+(Does not exist in `neovim`.)
+
+`let g:ansible_doc_keywordprg = 1`
+
+If `ansible-doc` is installed you can lookup the keyword under cursor with `K`.
+
+Currently works for `keywords` and `modules`.
+
 
 ## Neovim
 
@@ -232,9 +246,9 @@ This behavior is not supported out of the box, but you can use [this snippet](ht
 
 You'll then be able to go to a role's definition with `<leader>gr`.
 
-## completion for the ansible builtin modules
+## completion for the ansible builtin modules (vim9script feature)
 
-*NOTE: This feature needs vim version >= 9.*
+(Does not exist in `neovim`.)
 
 After the pattern `ansible.builtin.` completion for the ansible builtin modules works with CTRL-X CTRL-O.
 
